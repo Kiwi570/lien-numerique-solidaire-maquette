@@ -1,15 +1,15 @@
 /* Lumière de persienne : un papier ivoire traversé par la lumière d'une fenêtre à volets.
-   WebGL avec OGL, hébergé avec le site. Si WebGL manque, la version CSS reste en place. */
-import { Renderer, Program, Mesh, Triangle } from '../vendor/ogl/ogl.js';
+   WebGL brut (un seul triangle plein écran), sans bibliothèque. Limité à 30 images par seconde,
+   figé sur les écrans tactiles, en économie de données et en mode calme.
+   Si WebGL manque, la version CSS reste en place. */
 
-const vertex = /* glsl */ `
-attribute vec2 uv;
+const VERTEX = `
 attribute vec2 position;
 varying vec2 vUv;
-void main() { vUv = uv; gl_Position = vec4(position, 0.0, 1.0); }`;
+void main() { vUv = position * 0.5 + 0.5; gl_Position = vec4(position, 0.0, 1.0); }`;
 
-const fragment = /* glsl */ `
-precision highp float;
+const FRAGMENT = `
+precision mediump float;
 uniform float uTime;
 uniform vec2 uRes;
 uniform vec2 uMouse;
@@ -40,7 +40,6 @@ void main() {
   lumiere *= 0.72 + 0.28 * bruit(p * 1.6 + uTime * 0.035);
   vec3 col = mix(uFond, uLumiere, lumiere * uForce);
   col = mix(col, uOmbre, (1.0 - fenetre) * 0.06);
-  col += (hash(vUv * uRes + fract(uTime * 0.1)) - 0.5) * 0.025;
   gl_FragColor = vec4(col, 1.0);
 }`;
 
@@ -49,54 +48,76 @@ const PALETTES = {
   nuit: { fond: [0.047, 0.133, 0.2], lumiere: [0.953, 0.788, 0.643], ombre: [0.03, 0.09, 0.15], force: 0.22, centre: 0.78 },
 };
 
+function shader(gl, type, source) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, source); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+  return s;
+}
+
 export function lancer(canvas, mode, calme) {
-  let renderer;
-  try {
-    renderer = new Renderer({ canvas, dpr: Math.min(window.devicePixelRatio || 1, 1.5) * 0.75, alpha: false, antialias: false, powerPreference: 'low-power' });
-  } catch (e) { return false; }
-  const gl = renderer.gl;
+  let gl;
+  try { gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power', preserveDrawingBuffer: false }); } catch (e) { return false; }
   if (!gl) return false;
+  let prog;
+  try {
+    prog = gl.createProgram();
+    gl.attachShader(prog, shader(gl, gl.VERTEX_SHADER, VERTEX));
+    gl.attachShader(prog, shader(gl, gl.FRAGMENT_SHADER, FRAGMENT));
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return false;
+  } catch (e) { return false; }
+  gl.useProgram(prog);
+  const tampon = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, tampon);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const U = (n) => gl.getUniformLocation(prog, n);
   const pal = PALETTES[mode] || PALETTES.jour;
-  gl.clearColor(pal.fond[0], pal.fond[1], pal.fond[2], 1);
-  const geometry = new Triangle(gl);
-  const program = new Program(gl, {
-    vertex, fragment,
-    uniforms: {
-      uTime: { value: 8 }, uRes: { value: [1, 1] }, uMouse: { value: [0, 0] },
-      uFond: { value: pal.fond }, uLumiere: { value: pal.lumiere }, uOmbre: { value: pal.ombre },
-      uForce: { value: pal.force }, uCentreX: { value: window.innerWidth < 900 ? 0.6 : pal.centre },
-    },
-  });
-  const mesh = new Mesh(gl, { geometry, program });
+  gl.uniform3fv(U('uFond'), pal.fond); gl.uniform3fv(U('uLumiere'), pal.lumiere); gl.uniform3fv(U('uOmbre'), pal.ombre);
+  gl.uniform1f(U('uForce'), pal.force);
+  const uTime = U('uTime'), uRes = U('uRes'), uMouse = U('uMouse'), uCentre = U('uCentreX');
+
+  const economie = (navigator.connection && navigator.connection.saveData) || matchMedia('(pointer: coarse)').matches;
+  const fige = calme || economie;
   const parent = canvas.parentElement;
+  const dpr = Math.min(window.devicePixelRatio || 1, 1.5) * 0.6;
+  const souris = [0, 0], cible = [0, 0];
+  let t0 = performance.now(), dernier = 0, raf = 0, visible = true;
+
+  const dessiner = (t) => {
+    gl.uniform1f(uTime, 8 + (t - t0) / 1000);
+    gl.uniform2f(uMouse, souris[0], souris[1]);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  };
   const taille = () => {
     const w = parent.clientWidth, h = parent.clientHeight;
-    renderer.setSize(w, h);
+    canvas.width = Math.max(1, Math.round(w * dpr)); canvas.height = Math.max(1, Math.round(h * dpr));
     canvas.style.width = '100%'; canvas.style.height = '100%';
-    program.uniforms.uRes.value = [w, h];
-    program.uniforms.uCentreX.value = window.innerWidth < 900 ? 0.6 : pal.centre;
-    if (calme) renderer.render({ scene: mesh });
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(uRes, w, h);
+    gl.uniform1f(uCentre, window.innerWidth < 900 ? 0.6 : pal.centre);
+    dessiner(performance.now());
   };
   taille();
   if ('ResizeObserver' in window) new ResizeObserver(taille).observe(parent); else window.addEventListener('resize', taille);
-  renderer.render({ scene: mesh });
-  if (calme) return true;
+  if (fige) return true;
 
-  const cible = [0, 0], souris = [0, 0];
   window.addEventListener('pointermove', (e) => {
     const r = parent.getBoundingClientRect();
     cible[0] = ((e.clientX - r.left) / r.width - 0.5) * 2;
     cible[1] = -((e.clientY - r.top) / r.height - 0.5) * 2;
   }, { passive: true });
-  let visible = true, raf = 0, t0 = performance.now();
   const boucle = (t) => {
     raf = 0;
     if (!visible || document.hidden) return;
-    souris[0] += (cible[0] - souris[0]) * 0.035; souris[1] += (cible[1] - souris[1]) * 0.035;
-    program.uniforms.uMouse.value = souris;
-    program.uniforms.uTime.value = 8 + (t - t0) / 1000;
-    renderer.render({ scene: mesh });
     raf = requestAnimationFrame(boucle);
+    if (t - dernier < 33) return;           // 30 images par seconde suffisent pour une lumière lente
+    dernier = t;
+    souris[0] += (cible[0] - souris[0]) * 0.06; souris[1] += (cible[1] - souris[1]) * 0.06;
+    dessiner(t);
   };
   const relancer = () => { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(boucle); };
   if ('IntersectionObserver' in window) new IntersectionObserver((e) => { visible = e[0].isIntersecting; relancer(); }).observe(parent);

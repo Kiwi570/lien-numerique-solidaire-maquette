@@ -90,7 +90,6 @@
     chaises: 'M60 26a34 34 0 1 1-.1 0ZM58 18h4M58 102h4M18 58v4M102 58v4M30 30l3 3M88 88l3 3M88 32l3-3M30 90l3-3',
     port: 'M10 82h100M22 94h76M34 106h52M40 82a20 20 0 0 1 40 0M84 82V36M84 40l16 34H84'
   };
-  var IMAGES = window.LNS_IMAGES || {};
 
   function provisoire(fig) {
     var nom = fig.getAttribute('data-img') || 'visuel';
@@ -113,51 +112,10 @@
       '<span class="visuel__etiquette" aria-hidden="true">' + source + ' · <b>' + nom + '</b></span>';
   }
 
-  function entree(nom) {
-    var e = IMAGES[nom];
-    if (!e) return null;
-    return Array.isArray(e) ? { w: e, pos: '' } : e;
-  }
-  function photo(fig) {
-    var nom = fig.getAttribute('data-img'), e = entree(nom);
-    if (!e) return false;
-    var mob = fig.getAttribute('data-img-mobile'), eMob = mob && entree(mob);
-    var alt = fig.getAttribute('aria-label') || '';
-    var srcset = function (n, t) { return t.map(function (w) { return 'assets/img/' + n + '-' + w + '.webp ' + w + 'w'; }).join(', '); };
-    var html = '<picture>' + (eMob ? '<source media="(max-width: 700px)" srcset="' + srcset(mob, eMob.w) + '" sizes="100vw">' : '') +
-      '<img src="assets/img/' + nom + '-' + e.w[0] + '.webp" srcset="' + srcset(nom, e.w) + '" sizes="(max-width: 900px) 100vw, 50vw" alt="' + alt.replace(/"/g, '&quot;') + '" loading="lazy" decoding="async"></picture>';
-    var dedans = $('.visuel__dedans', fig) || fig;
-    dedans.innerHTML = html;
-    fig.removeAttribute('role'); fig.removeAttribute('aria-label');
-    var img = $('img', fig);
-    if (fig.closest('.heros, .heros-page')) { img.loading = 'eager'; img.setAttribute('fetchpriority', 'high'); }
-    var cadrer = function () { var m = eMob && window.matchMedia('(max-width: 700px)').matches; img.style.objectPosition = (m ? eMob.pos : e.pos) || ''; };
-    cadrer();
-    if (eMob) { var mq = window.matchMedia('(max-width: 700px)'); if (mq.addEventListener) mq.addEventListener('change', cadrer); }
-    fig.classList.add('visuel--photo');
-    img.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, { once: true });
-    return true;
-  }
-
   function initVisuels() {
-    $$('.visuel[data-img]').forEach(function (f) { if (!photo(f)) provisoire(f); });
-    $$('[data-logo]').forEach(function (t) {
-      var n = t.getAttribute('data-logo'), tl = entree(n);
-      if (!tl) return;
-      t.innerHTML = '<img src="assets/img/' + n + '-' + tl.w[0] + '.webp" alt="" style="width:76%;height:auto;position:relative;z-index:1">';
-      t.classList.add('tampon--logo');
-    });
-  }
-
-  /* ------------------------------------------------------------ Étapes : copies pour le téléphone */
-  function initEtapesCopies() {
-    var pile = $$('.etapes__pile .visuel'), etapes = $$('.etape');
-    etapes.forEach(function (li, k) {
-      if (!pile[k]) return;
-      var c = pile[k].cloneNode(true);
-      c.classList.remove('visuel--cadre', 'actif');
-      li.insertBefore(c, li.firstChild);
-    });
+    /* Les photos sont dans le HTML, avec des cadres de proportions fixes : leur chargement ne décale rien.
+       Seuls les emplacements encore sans image reçoivent un visuel provisoire. */
+    $$('.visuel[data-img]:not(.visuel--photo)').forEach(provisoire);
   }
 
   /* ------------------------------------------------------------ Copier */
@@ -181,57 +139,108 @@
   /* ------------------------------------------------------------ Formulaire de rendez-vous */
   function initFormulaire() {
     var f = $('[data-formulaire]');
-    $$('[data-pour]').forEach(function (a) {
+    var appliquer = function (pour, besoin) {
+      if (pour) { var r = $('input[name="pour"][value="' + pour + '"]', f); if (r) r.checked = true; }
+      if (besoin) { var b = $('input[name="besoin"][value="' + besoin + '"]', f); if (b) b.checked = true; }
+    };
+    $$('[data-pour], [data-besoin]').forEach(function (a) {
       a.addEventListener('click', function () {
-        var v = a.getAttribute('data-pour');
-        if (f) { var r = $('input[name="pour"][value="' + v + '"]', f); if (r) r.checked = true; }
-        else stocker('sessionStorage', 'lns-pour', v);
+        var p = a.getAttribute('data-pour'), b = a.getAttribute('data-besoin');
+        if (f) appliquer(p, b);
+        else { if (p) stocker('sessionStorage', 'lns-pour', p); if (b) stocker('sessionStorage', 'lns-besoin', b); }
       });
     });
     if (!f) return;
-    var memo = lire('sessionStorage', 'lns-pour');
-    if (memo) { effacer('sessionStorage', 'lns-pour'); var rr = $('input[name="pour"][value="' + memo + '"]', f); if (rr) rr.checked = true; }
+    var mp = lire('sessionStorage', 'lns-pour'), mb = lire('sessionStorage', 'lns-besoin');
+    if (mp || mb) { effacer('sessionStorage', 'lns-pour'); effacer('sessionStorage', 'lns-besoin'); appliquer(mp, mb); }
 
     var pas = 1, etapes = $$('.etape-form', f), suiv = $('[data-form-suivant]', f), ret = $('[data-form-retour]', f);
-    var nav = $('[data-form-nav]', f), conf = $('[data-confirmation]', f), err = $('[data-form-erreur]', f), annonce = $('[data-form-annonce]', f);
+    var nav = $('[data-form-nav]', f), conf = $('[data-confirmation]', f), annonce = $('[data-form-annonce]', f);
     var avance = $('.progression .avance', f), cercles = $$('.progression circle', f);
     var long = avance.getTotalLength();
     avance.style.strokeDasharray = long; avance.style.strokeDashoffset = long;
 
-    function montrer(n) {
+    /* Le formulaire s'adapte à la personne qui écrit : pour elle-même, pour un proche, pour une structure */
+    var mode = function () { return (f.querySelector('input[name="pour"]:checked') || {}).value || 'moi'; };
+    $$('label[for], legend', f).forEach(function (l) { l.setAttribute('data-libelle-moi', l.textContent); });
+    function adapter() {
+      var m = mode();
+      $$('[data-pour-seul]', f).forEach(function (x) { x.hidden = (' ' + x.getAttribute('data-pour-seul') + ' ').indexOf(' ' + m + ' ') < 0; });
+      $$('[data-libelle-moi]', f).forEach(function (l) {
+        var v = l.getAttribute('data-libelle-' + (m === 'moi' ? 'moi' : m === 'proche' ? 'proche' : 'structure'));
+        l.textContent = v || l.getAttribute('data-libelle-moi');
+      });
+    }
+    $$('input[name="pour"]', f).forEach(function (r) { r.addEventListener('change', adapter); });
+
+    function erreur(champ, message) {
+      var p = d.getElementById('err-' + champ.id.replace('rdv-', ''));
+      champ.setAttribute('aria-invalid', message ? 'true' : 'false');
+      if (p) { p.textContent = message || ''; p.hidden = !message; }
+    }
+    function montrer(n, focus) {
       pas = n;
       etapes.forEach(function (e) { e.hidden = +e.getAttribute('data-pas') !== n; });
       ret.hidden = n === 1;
-      suiv.textContent = n === 3 ? 'Envoyer ma demande' : 'Continuer';
+      suiv.textContent = n === 3 ? (mode() === 'structure' ? 'Envoyer la demande' : 'Être rappelé') : 'Continuer';
       avance.style.strokeDashoffset = long * (1 - (n - 1) / 2);
       cercles.forEach(function (c, i) { c.classList.toggle('fait', i < n); });
       annonce.textContent = 'Étape ' + n + ' sur 3';
-      var cible = $('.etape-form:not([hidden]) legend', f);
-      if (cible) { cible.setAttribute('tabindex', '-1'); cible.focus({ preventScroll: true }); }
+      var cible = $('.etape-form:not([hidden]) > legend', f);
+      if (cible && focus) { cible.setAttribute('tabindex', '-1'); cible.focus({ preventScroll: true }); }
     }
     suiv.addEventListener('click', function () {
-      if (pas < 3) { montrer(pas + 1); return; }
-      var nom = f.elements.nom.value.trim(), tel = f.elements.tel.value.replace(/\D/g, '');
-      if (!nom || tel.length < 10) {
-        err.textContent = !nom ? 'Indiquez votre nom pour que Florent sache qui rappeler.' : 'Indiquez un numéro de téléphone à 10 chiffres, par exemple 06 12 34 56 78.';
-        err.hidden = false;
-        (!nom ? f.elements.nom : f.elements.tel).focus();
-        return;
-      }
-      err.hidden = true;
+      if (pas < 3) { adapter(); montrer(pas + 1, true); return; }
+      var m = mode(), champs = f.elements, premier = null;
+      var verifs = [[champs.nom, !champs.nom.value.trim() ? 'Indiquez votre nom pour que Florent sache qui rappeler.' : ''],
+                    [champs.tel, champs.tel.value.replace(/\D/g, '').length < 10 ? 'Indiquez un numéro à 10 chiffres, par exemple 06 12 34 56 78.' : '']];
+      if (m === 'structure') verifs.unshift([champs.structure, !champs.structure.value.trim() ? 'Indiquez le nom de votre structure.' : '']);
+      verifs.forEach(function (v) { erreur(v[0], v[1]); if (v[1] && !premier) premier = v[0]; });
+      if (premier) { premier.focus(); return; }
       var moment = (f.querySelector('input[name="moment"]:checked') || {}).value;
-      var quand = moment === 'matin' ? 'en matinée' : moment === 'apres-midi' ? "dans l'après-midi" : 'dès que possible';
-      $('[data-confirmation-texte]', f).textContent = 'Florent vous rappelle ' + quand + ' au ' + f.elements.tel.value.trim() + ' pour fixer la visite découverte gratuite.';
+      var quand = moment === 'matin' ? 'en matinée' : moment === 'apres-midi' ? 'dans l’après-midi' : 'dès que possible';
+      var tel = champs.tel.value.trim(), proche = champs.proche.value.trim();
+      var texte = m === 'structure' ? 'Florent vous rappelle ' + quand + ' au ' + tel + ' pour parler de votre projet et vous proposer un devis.'
+        : m === 'proche' ? 'Florent vous rappelle ' + quand + ' au ' + tel + ' pour organiser la visite découverte gratuite' + (proche ? ' chez ' + proche : ' de votre proche') + '.'
+        : 'Florent vous rappelle ' + quand + ' au ' + tel + ' pour fixer la visite découverte gratuite.';
+      $('[data-confirmation-texte]', f).textContent = texte;
       etapes.forEach(function (e) { e.hidden = true; });
-      nav.hidden = true; conf.hidden = false;
+      nav.hidden = true; conf.hidden = false; annonce.textContent = 'Demande enregistrée';
       cercles.forEach(function (c) { c.classList.add('fait'); }); avance.style.strokeDashoffset = 0;
       conf.focus();
     });
-    ret.addEventListener('click', function () { if (pas > 1) montrer(pas - 1); });
-    $('[data-form-recommencer]', f).addEventListener('click', function () { f.reset(); conf.hidden = true; nav.hidden = false; montrer(1); });
+    ['nom', 'tel', 'structure'].forEach(function (n) {
+      var c = f.elements[n]; if (c) c.addEventListener('input', function () { if (c.getAttribute('aria-invalid') === 'true') erreur(c, ''); });
+    });
+    ret.addEventListener('click', function () { if (pas > 1) montrer(pas - 1, true); });
+    $('[data-form-recommencer]', f).addEventListener('click', function () { f.reset(); adapter(); conf.hidden = true; nav.hidden = false; montrer(1, true); });
     f.addEventListener('submit', function (e) { e.preventDefault(); });
-    montrer(1);
-    if (d.activeElement && d.activeElement.closest && d.activeElement.closest('legend')) d.activeElement.blur();
+    adapter();
+    montrer(1, false);
+  }
+
+  /* ------------------------------------------------------------ Formulaire court (réinsertion) */
+  function initFormulaireCourt() {
+    var f = $('[data-formulaire-court]');
+    if (!f) return;
+    var tel = f.elements.tel, err = d.getElementById('err-c-tel');
+    $('[data-court-envoyer]', f).addEventListener('click', function () {
+      if (tel.value.replace(/\D/g, '').length < 10) {
+        tel.setAttribute('aria-invalid', 'true'); err.textContent = 'Indiquez un numéro à 10 chiffres, par exemple 06 12 34 56 78.'; err.hidden = false; tel.focus(); return;
+      }
+      tel.setAttribute('aria-invalid', 'false'); err.hidden = true;
+      var pro = f.querySelector('input[name="profil"]:checked').value === 'pro';
+      $('[data-court-texte]', f).textContent = 'Florent vous rappelle rapidement au ' + tel.value.trim() + (pro ? ' pour parler de l’accompagnement de vos publics.' : ', en toute discrétion.');
+      $('[data-court-champs]', f).hidden = true;
+      var c = $('[data-court-confirmation]', f); c.hidden = false; c.focus();
+    });
+    f.addEventListener('submit', function (e) { e.preventDefault(); });
+  }
+
+  /* ------------------------------------------------------------ Saisie : la barre d'appel ne masque pas les champs */
+  function initSaisie() {
+    d.addEventListener('focusin', function (e) { if (e.target.matches && e.target.matches('input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select')) root.classList.add('saisie'); });
+    d.addEventListener('focusout', function () { setTimeout(function () { var a = d.activeElement; if (!a || !a.matches || !a.matches('input, textarea, select')) root.classList.remove('saisie'); }, 50); });
   }
 
   /* ------------------------------------------------------------ Simulateur */
@@ -239,14 +248,16 @@
   function initCalculateurs() {
     $$('[data-calc]').forEach(function (c) {
       var range = $('input[type="range"]', c), out = $('output', c), radios = $$('input[type="radio"]', c), raccourcis = $$('[data-heures]', c);
-      var paye = $('[data-calc-paye]', c), credit = $('[data-calc-credit]', c), reel = $('[data-calc-reel]', c), forfait = $('[data-calc-forfait]', c), alerte = $('[data-calc-alerte]', c);
-      var etat = { reel: 150 };
+      var paye = $('[data-calc-paye]', c), credit = $('[data-calc-credit]', c), reel = $('[data-calc-reel]', c), forfait = $('[data-calc-forfait]', c), dire = $('[data-calc-annonce]', c);
+      var etat = { reel: 150 }, minuterie;
       function maj(anime) {
         var taux = +(c.querySelector('input[type="radio"]:checked') || radios[0]).value, h = +range.value;
         var cout = taux * h, cr = Math.min(cout, 3000) * 0.5, r = cout - cr;
         out.textContent = h + (h > 1 ? ' heures' : ' heure');
+        range.setAttribute('aria-valuetext', h + (h > 1 ? ' heures' : ' heure'));
         paye.textContent = euros(cout); credit.textContent = '− ' + euros(cr);
-        alerte.hidden = cout <= 3000;
+        clearTimeout(minuterie);
+        if (anime) minuterie = setTimeout(function () { dire.textContent = 'Pour ' + h + (h > 1 ? ' heures' : ' heure') + ', vous réglez ' + euros(cout) + ' et votre coût réel est de ' + euros(r) + '.'; }, 600);
         forfait.textContent = taux === 30 && h === 10 ? 'Forfait Sérénité' : taux === 30 && h === 20 ? 'Forfait Prestige' : taux === 15 ? 'Tarif solidaire' : 'Tarif standard';
         raccourcis.forEach(function (b) { b.setAttribute('aria-pressed', +b.getAttribute('data-heures') === h ? 'true' : 'false'); });
         if (anime && avecGsap && !calme) {
@@ -360,56 +371,77 @@
     d.body.appendChild(svg);
     fil = { svg: svg, trace: trace, ombre: ombre, aiguille: aiguille, noeuds: [], total: 0, ys: [], xs: [], ls: [] };
 
-    function construire() {
-      var W = d.documentElement.clientWidth, H = d.body.offsetHeight, sy = window.scrollY;
+    var dernW = 0, dernH = 0;
+    function construire(force) {
+      var W = d.documentElement.clientWidth, H = d.body.offsetHeight;
+      if (force !== true && W === dernW && Math.abs(H - dernH) < 2) return;
+      dernW = W; dernH = H;
+      var sy = window.scrollY;
       svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('width', W); svg.setAttribute('height', H); svg.style.height = H + 'px';
       var env = $('.enveloppe'), cs = getComputedStyle(env);
       var marge = Math.max(0, (W - Math.min(W, parseFloat(cs.maxWidth) || 1320)) / 2), goutt = parseFloat(cs.paddingLeft) || 20;
       var xG = marge + goutt * (W < 700 ? .38 : .42), xD = W - xG, onde = Math.max(5, Math.min(14, W * .009));
       var X = function (s) { return s === 'gauche' ? xG : s === 'centre' ? W / 2 : xD; };
       var rect = function (e) { var r = e.getBoundingClientRect(); return { t: r.top + sy, b: r.bottom + sy, l: r.left, r: r.right }; };
-      var p, cx, cy, depart = $('[data-lien]');
+      /* Le tracé est une suite de courbes de Bézier cubiques, gardées en mémoire pour l'échantillonnage */
+      var segs = [], cx, cy, x0, y0, depart = $('[data-lien]');
+      var C = function (x1, y1, x2, y2, x, y) { segs.push([cx, cy, x1, y1, x2, y2, x, y]); cx = x; cy = y; };
+      var Lg = function (x, y) { C(cx + (x - cx) / 3, cy + (y - cy) / 3, cx + 2 * (x - cx) / 3, cy + 2 * (y - cy) / 3, x, y); };
       if (depart) {
         var m = depart.getScreenCTM(), pt = depart.ownerSVGElement.createSVGPoint();
         var anime = !calme && window.MorphSVGPlugin;
         pt.x = anime ? 596 : 204; pt.y = anime ? 88 : 82;
         var q = pt.matrixTransform(m); cx = q.x; cy = q.y + sy;
       } else { var r0 = rect(sections[0]); cx = X(sections[0].getAttribute('data-fil-section')); cy = r0.t + 30; }
-      p = 'M' + cx.toFixed(1) + ' ' + cy.toFixed(1);
+      x0 = cx; y0 = cy;
       sections.forEach(function (s, i) {
+        if (cx === null) return;
         var r = rect(s), x = X(s.getAttribute('data-fil-section'));
         var haut = i === 0 && depart ? Math.max(cy + 80, r.t + 60) : r.t + 50, bas = r.b - 50;
         var k = (haut - cy) * .55;
-        if (i === 0 && depart) p += 'C' + (cx + 160) + ' ' + cy + ' ' + x + ' ' + (haut - k) + ' ' + x + ' ' + haut;
-        else p += 'C' + cx + ' ' + (cy + k) + ' ' + x + ' ' + (haut - k) + ' ' + x + ' ' + haut;
+        if (i === 0 && depart) C(cx + 160, cy, x, haut - k, x, haut);
+        else C(cx, cy + k, x, haut - k, x, haut);
         var fin = s.querySelector('[data-fil-fin]');
         if (fin) {
-          var rf = rect(fin), yf = rf.b - 2, xa = rf.l, xb = rf.r;
-          var kk = (yf - haut) * .5;
-          p += 'C' + x + ' ' + (haut + kk) + ' ' + (xa - 60) + ' ' + yf + ' ' + xa + ' ' + yf;
-          p += 'C' + (xa + (xb - xa) * .33) + ' ' + (yf + 6) + ' ' + (xa + (xb - xa) * .66) + ' ' + (yf - 6) + ' ' + xb + ' ' + yf;
-          p += 'C' + (xb + 12) + ' ' + (yf - 30) + ' ' + (xb + 38) + ' ' + (yf - 16) + ' ' + (xb + 24) + ' ' + (yf - 2) + 'S' + (xb + 4) + ' ' + (yf - 10) + ' ' + (xb + 20) + ' ' + (yf - 18) + 'L' + (xb + 50) + ' ' + (yf - 4);
-          cx = xb + 50; cy = yf - 4; return;
+          var rf = rect(fin), yf = rf.b - 2, xa = rf.l, xb = rf.r, kk = (yf - haut) * .5;
+          C(x, haut + kk, xa - 60, yf, xa, yf);
+          C(xa + (xb - xa) * .33, yf + 6, xa + (xb - xa) * .66, yf - 6, xb, yf);
+          C(xb + 12, yf - 30, xb + 38, yf - 16, xb + 24, yf - 2);   // le nœud final
+          C(xb + 10, yf + 12, xb + 4, yf - 10, xb + 20, yf - 18);
+          Lg(xb + 50, yf - 4);
+          cx = null; return;
         }
         var sens = x < W / 2 ? 1 : -1, h = bas - haut;
-        if (h > 40) p += 'C' + (x + onde * sens) + ' ' + (haut + h * .33) + ' ' + (x - onde * sens) + ' ' + (haut + h * .66) + ' ' + x + ' ' + bas;
-        cx = x; cy = Math.max(bas, haut);
+        if (h > 40) C(x + onde * sens, haut + h * .33, x - onde * sens, haut + h * .66, x, bas);
+      });
+      var f1 = function (v) { return Math.round(v * 10) / 10; };
+      var p = 'M' + f1(x0) + ' ' + f1(y0);
+      var xs = [x0], ys = [y0], ls = [0], L = 0, px = x0, py = y0, maxY = y0;
+      segs.forEach(function (s) {
+        p += 'C' + f1(s[2]) + ' ' + f1(s[3]) + ' ' + f1(s[4]) + ' ' + f1(s[5]) + ' ' + f1(s[6]) + ' ' + f1(s[7]);
+        var est = Math.hypot(s[2] - s[0], s[3] - s[1]) + Math.hypot(s[4] - s[2], s[5] - s[3]) + Math.hypot(s[6] - s[4], s[7] - s[5]);
+        var n = Math.max(2, Math.ceil(est / 10));
+        for (var k = 1; k <= n; k++) {
+          var tt = k / n, u = 1 - tt, a = u * u * u, b = 3 * u * u * tt, c = 3 * u * tt * tt, e = tt * tt * tt;
+          var x = a * s[0] + b * s[2] + c * s[4] + e * s[6], y = a * s[1] + b * s[3] + c * s[5] + e * s[7];
+          L += Math.hypot(x - px, y - py); px = x; py = y; if (y > maxY) maxY = y;
+          xs.push(x); ys.push(maxY); ls.push(L);
+        }
       });
       trace.setAttribute('d', p); ombre.setAttribute('d', p);
-      var L = trace.getTotalLength(); fil.total = L;
-      var ys = [], xs = [], ls = [], maxY = -1e9;
-      for (var s = 0; s <= L; s += 8) { var q2 = trace.getPointAtLength(s); maxY = Math.max(maxY, q2.y); ys.push(maxY); xs.push(q2.x); ls.push(s); }
-      fil.ys = ys; fil.xs = xs; fil.ls = ls;
-      trace.style.strokeDasharray = L + ' ' + L; ombre.style.strokeDasharray = L + ' ' + L;
+      var Lr = Math.max(1, Math.round(L));
+      trace.setAttribute('pathLength', Lr); ombre.setAttribute('pathLength', Lr);
+      fil.total = Lr; fil.ys = ys; fil.xs = xs; fil.ls = ls;
+      trace.style.strokeDasharray = Lr + ' ' + Lr; ombre.style.strokeDasharray = Lr + ' ' + Lr;
       // nœuds sur les étapes
       gNoeuds.innerHTML = ''; fil.noeuds = [];
       $$('[data-noeuds] .etape').forEach(function (et) {
         var yk = rect(et).t + 34, i = indice(yk), xk = xs[i] || xD;
         var dk = 'M' + xk + ' ' + (yk - 22) + 'C' + (xk + 22) + ' ' + (yk - 16) + ' ' + (xk + 18) + ' ' + (yk + 14) + ' ' + xk + ' ' + (yk + 9) + 'S' + (xk - 18) + ' ' + (yk - 12) + ' ' + xk + ' ' + (yk - 6) + 'S' + (xk + 9) + ' ' + (yk + 18) + ' ' + xk + ' ' + (yk + 22);
-        var n = el('path', { class: 'fil-global__noeud', d: dk }, gNoeuds);
-        var ln = n.getTotalLength(); n.style.strokeDasharray = ln; n.style.strokeDashoffset = calme ? 0 : ln;
+        var n = el('path', { class: 'fil-global__noeud', d: dk, pathLength: 100 }, gNoeuds);
+        n.style.strokeDasharray = 100; n.style.strokeDashoffset = calme ? 0 : 100;
         n.style.transformOrigin = xk + 'px ' + yk + 'px'; n.style.transformBox = 'view-box';
-        fil.noeuds.push({ el: n, y: yk, l: ln, fait: calme });
+        fil.noeuds.push({ el: n, y: yk, l: 100, fait: calme });
       });
       dessiner();
     }
@@ -434,11 +466,11 @@
       });
     }
     fil.construire = construire; fil.dessiner = dessiner;
-    ST.addEventListener('refresh', construire);
+    ST.addEventListener('refresh', function () { construire(false); });
     if (lenis) lenis.on('scroll', dessiner); else window.addEventListener('scroll', function () { requestAnimationFrame(dessiner); }, { passive: true });
     var minuterie;
-    if (window.ResizeObserver) new ResizeObserver(function () { clearTimeout(minuterie); minuterie = setTimeout(construire, 180); }).observe(d.body);
-    construire();
+    if (window.ResizeObserver) new ResizeObserver(function () { clearTimeout(minuterie); minuterie = setTimeout(function () { construire(false); }, 180); }).observe(d.body);
+    construire(true);
   }
 
   /* ---------- Fil-curseur ---------- */
@@ -446,7 +478,7 @@
     if (calme || !pointeurFin) return;
     var cv = d.createElement('canvas'); cv.className = 'fil-curseur'; cv.setAttribute('aria-hidden', 'true'); d.body.appendChild(cv);
     var ctx = cv.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1);
-    var N = 20, SEG = 8, P = [], souris = { x: -100, y: -100, vu: false }, crochet = null, derniere = 0, opa = 0;
+    var vide = true, N = 20, SEG = 8, P = [], souris = { x: -100, y: -100, vu: false }, crochet = null, derniere = 0, opa = 0;
     for (var i = 0; i < N; i++) P.push({ x: -100, y: -100 + i * SEG, ox: -100, oy: -100 + i * SEG });
     function taille() { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }
     taille(); window.addEventListener('resize', taille);
@@ -460,7 +492,8 @@
     G.ticker.add(function () {
       var t = performance.now(), actif = souris.vu && t - derniere < 5000;
       opa += ((actif ? 1 : 0) - opa) * .08;
-      if (opa < .01) { ctx.clearRect(0, 0, cv.width, cv.height); return; }
+      if (opa < .01) { if (!vide) { ctx.clearRect(0, 0, cv.width, cv.height); vide = true; } return; }
+      vide = false;
       P[0].x = souris.x + 2; P[0].y = souris.y + 14;
       for (var i = 1; i < N; i++) { var p = P[i], vx = (p.x - p.ox) * .965, vy = (p.y - p.oy) * .965; p.ox = p.x; p.oy = p.y; p.x += vx; p.y += vy + .42; }
       if (crochet) { var r = crochet.getBoundingClientRect(); var fx = r.left + 10, fy = r.top + r.height / 2; P[N - 1].x += (fx - P[N - 1].x) * .35; P[N - 1].y += (fy - P[N - 1].y) * .35; }
@@ -479,27 +512,30 @@
     });
     $$('.magnetique').forEach(function (b) {
       var qx = G.quickTo(b, 'x', { duration: .45, ease: 'power3.out' }), qy = G.quickTo(b, 'y', { duration: .45, ease: 'power3.out' });
-      b.addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; var r = b.getBoundingClientRect(); qx((e.clientX - r.left - r.width / 2) * .22); qy((e.clientY - r.top - r.height / 2) * .32); crochet = b; });
+      var borne = function (v) { return Math.max(-6, Math.min(6, v)); };
+      b.addEventListener('pointermove', function (e) { if (e.pointerType !== 'mouse') return; var r = b.getBoundingClientRect(); qx(borne((e.clientX - r.left - r.width / 2) * .06)); qy(borne((e.clientY - r.top - r.height / 2) * .12)); crochet = b; });
       b.addEventListener('pointerleave', function () { qx(0); qy(0); crochet = null; });
     });
   }
 
   /* ---------- Prix coupé en deux ---------- */
   function couperPrix(pc, delai) {
-    var avant = $('.prix-coupe__avant', pc), haut = $('.prix-coupe__moitie--haut', pc), bas = $('.prix-coupe__moitie--bas', pc), trait = $('.prix-coupe__trait', pc), apres = $('.prix-coupe__apres', pc);
+    var avant = $('.prix-coupe__avant', pc), haut = $('.prix-coupe__moitie--haut', pc), bas = $('.prix-coupe__moitie--bas', pc), trait = $('.prix-coupe__trait', pc);
+    var apres = $('.prix-coupe__apres', pc), fleche = $('.prix-coupe__fleche', pc);
     pc.classList.add('anime');
     var encre = couleur('--encre'), douce = couleur('--encre-douce');
     G.set(avant, { scale: 1.6, color: encre });
-    G.set(apres, { opacity: 0, x: -10 });
+    G.set([fleche, apres], { opacity: 0, x: -8 });
     G.set(trait, { scaleX: 0, rotation: -14, opacity: 1 });
     var tl = G.timeline({ delay: delai || 0, paused: true });
-    tl.to(trait, { scaleX: 1, duration: .38, ease: 'power3.in' })
+    tl.to(trait, { scaleX: 1, duration: .3, ease: 'power3.in' })
       .set(bas, { visibility: 'visible' })
       .set(haut, { clipPath: 'inset(0 0 48% 0)' })
-      .to(bas, { y: 46, rotation: 14, opacity: 0, duration: .7, ease: 'power2.in' })
-      .to(avant, { scale: 1, color: douce, duration: .45, ease: 'power3.inOut' }, '-=.35')
+      .to(bas, { y: 40, rotation: 14, opacity: 0, duration: .5, ease: 'power2.in' })
+      .to(trait, { opacity: 0, duration: .25 }, '-=.35')
+      .to(avant, { scale: 1, color: douce, duration: .35, ease: 'power3.inOut' }, '-=.3')
       .set(haut, { clipPath: 'inset(0 0 0% 0)' })
-      .to(apres, { opacity: 1, x: 0, duration: .55, ease: 'back.out(2)' }, '-=.2');
+      .to([fleche, apres], { opacity: 1, x: 0, duration: .35, stagger: .08, ease: 'back.out(2)' }, '-=.15');
     return tl;
   }
   function initPrix() {
@@ -521,22 +557,23 @@
     G.set(point, { scale: 0, transformOrigin: '50% 50%' });
     var sp = SplitText.create(titre, { type: 'words', mask: 'words' });
     G.set(sp.words, { yPercent: 115 });
-    G.set(['.heros .surtitre', '.heros__chapo', '.heros .actions', '.heros__prix'], { opacity: 0, y: 18 });
+    G.set(['.heros .surtitre', '.heros__chapo', '.heros__prix'], { opacity: 0, y: 14 });
     G.set(visuel, { clipPath: 'polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%)' });
     G.set(tampon, { scale: 0, rotation: -40 });
+    root.classList.add('anim-fin');   // la CSS passe la main à GSAP
     var tlp = pc ? couperPrix(pc) : null;
     var tl = G.timeline({ defaults: { ease: 'power3.out' } });
-    tl.to('.heros .surtitre', { opacity: 1, y: 0, duration: .5 }, .1)
-      .to(lien, { strokeDashoffset: 0, duration: 1.05, ease: 'power1.inOut' }, .15)
-      .to(point, { scale: 1, duration: .3, ease: 'back.out(3)' }, .72)
-      .to(visuel, { clipPath: 'polygon(0% 0%, 130% 0%, 100% 100%, -30% 100%)', duration: 1.1, ease: 'power3.inOut' }, .55)
-      .to(sp.words, { yPercent: 0, duration: .85, stagger: .045 }, .95)
-      .to(point, { scale: 0, duration: .2 }, 1.2)
-      .set(lien, { strokeDasharray: 'none' }, 1.2)
-      .to(lien, { morphSVG: 'M8 88C150 92 350 84 596 88', duration: .75, ease: 'power2.inOut' }, 1.2)
-      .to(['.heros__chapo', '.heros .actions', '.heros__prix'], { opacity: 1, y: 0, duration: .6, stagger: .08 }, 1.45)
-      .to(tampon, { scale: 1, rotation: -10, duration: .7, ease: 'back.out(2.2)' }, 1.75);
-    if (tlp) tl.add(function () { tlp.play(); }, 1.9);
+    tl.to('.heros .surtitre', { opacity: 1, y: 0, duration: .4 }, 0)
+      .to(lien, { strokeDashoffset: 0, duration: .8, ease: 'power1.inOut' }, .05)
+      .to(point, { scale: 1, duration: .25, ease: 'back.out(3)' }, .45)
+      .to(visuel, { clipPath: 'polygon(0% 0%, 130% 0%, 100% 100%, -30% 100%)', duration: 1, ease: 'power3.inOut' }, .3)
+      .to(sp.words, { yPercent: 0, duration: .75, stagger: .04 }, .5)
+      .to(point, { scale: 0, duration: .2 }, .88)
+      .set(lien, { strokeDasharray: 'none' }, .9)
+      .to(lien, { morphSVG: 'M8 88C150 92 350 84 596 88', duration: .6, ease: 'power2.inOut' }, .9)
+      .to(['.heros__chapo', '.heros__prix'], { opacity: 1, y: 0, duration: .5, stagger: .08 }, .95)
+      .to(tampon, { scale: 1, rotation: -10, duration: .6, ease: 'back.out(2.2)' }, 1.25);
+    if (tlp) tl.add(function () { tlp.play(); }, 1.0);
     var image = $('.heros__visuel .visuel__dedans');
     if (image) G.to(image, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.heros', start: 'top top', end: 'bottom top', scrub: true } });
   }
@@ -586,27 +623,60 @@
   /* ---------- Galerie horizontale et étiquettes ---------- */
   function initGalerie() {
     var g = $('[data-galerie]');
-    if (g && !calme) {
-      var mm = G.matchMedia();
-      mm.add('(min-width: 1024px)', function () {
-        g.classList.add('horizontale');
-        var piste = $('.galerie__piste', g);
-        var dist = function () { var gauche = piste.getBoundingClientRect().left - g.getBoundingClientRect().left - (G.getProperty(piste, 'x') || 0); return Math.max(0, piste.scrollWidth - (g.clientWidth - gauche)); };
-        G.to(piste, { x: function () { return -dist(); }, ease: 'none', scrollTrigger: { trigger: g, start: 'center 54%', end: function () { return '+=' + dist(); }, pin: true, scrub: .7, invalidateOnRefresh: true, anticipatePin: 1 } });
-        return function () { g.classList.remove('horizontale'); G.set(piste, { clearProps: 'x' }); };
-      });
+    if (g) {
+      var piste = $('.galerie__piste', g), collant = $('.galerie__collant', g);
+      var prec = $('[data-galerie-prec]', g), suiv = $('[data-galerie-suiv]', g);
+      var pas = function () { var c = $('.etiquette', piste); return c ? c.offsetWidth + 18 : 300; };
+      var fleches = function () { prec.disabled = piste.scrollLeft < 8; suiv.disabled = piste.scrollLeft > piste.scrollWidth - piste.clientWidth - 8; };
+      prec.addEventListener('click', function () { piste.scrollBy({ left: -pas(), behavior: calme ? 'auto' : 'smooth' }); });
+      suiv.addEventListener('click', function () { piste.scrollBy({ left: pas(), behavior: calme ? 'auto' : 'smooth' }); });
+      piste.addEventListener('scroll', function () { requestAnimationFrame(fleches); }, { passive: true });
+      window.addEventListener('resize', fleches);
+      fleches();
+      if (!calme) {
+        G.matchMedia().add('(min-width: 1200px) and (min-height: 760px)', function () {
+          g.classList.add('horizontale');
+          var haut = 0, dist = 0;
+          var mesurer = function () {
+            G.set(piste, { x: 0 }); g.style.height = '';
+            var hC = collant.offsetHeight, eh = hauteurEntete();
+            haut = Math.max(eh + 12, Math.round((window.innerHeight - hC) / 2 + eh / 2));
+            collant.style.top = haut + 'px';
+            var gauche = piste.getBoundingClientRect().left - collant.getBoundingClientRect().left;
+            dist = Math.max(0, Math.round(piste.scrollWidth + gauche - collant.clientWidth));
+            g.style.height = (hC + dist) + 'px';
+          };
+          mesurer();
+          ST.addEventListener('refreshInit', mesurer);
+          var tw = G.to(piste, { x: function () { return -dist; }, ease: 'none', scrollTrigger: {
+            trigger: g, start: function () { return 'top top+=' + haut; }, end: function () { return '+=' + dist; }, scrub: .6, invalidateOnRefresh: true } });
+          /* Au clavier : amener la carte qui reçoit le focus au centre de la zone visible */
+          var surFocus = function (e) {
+            var carte = e.target.closest('.etiquette'); if (!carte) return;
+            collant.scrollLeft = 0; piste.scrollLeft = 0;
+            var x = Math.max(0, Math.min(dist, carte.offsetLeft - (window.innerWidth - carte.offsetWidth) / 2));
+            var y = tw.scrollTrigger.start + x;
+            if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+            tw.progress(dist ? x / dist : 0);
+          };
+          g.addEventListener('focusin', surFocus);
+          return function () {
+            ST.removeEventListener('refreshInit', mesurer); g.removeEventListener('focusin', surFocus);
+            g.classList.remove('horizontale'); g.style.height = ''; collant.style.top = ''; G.set(piste, { clearProps: 'x' });
+          };
+        });
+      }
     }
     $$('[data-incline]').forEach(function (c) {
       var svg = el('svg', { class: 'etiquette__contour', 'aria-hidden': 'true' }, c);
-      var r = el('rect', { x: 1, y: 1, rx: 8, width: '100%', height: '100%' }, svg);
-      var per = function () { var b = c.getBoundingClientRect(); return 2 * (b.width + b.height) + 40; };
-      G.set(r, { strokeDasharray: 3000, strokeDashoffset: 3000 });
+      var r = el('rect', { x: 1, y: 1, rx: 8, width: '100%', height: '100%', pathLength: 100 }, svg);
+      G.set(r, { strokeDasharray: 100, strokeDashoffset: 100 });
       if (!pointeurFin || calme) return;
       var rx = G.quickTo(c, 'rotationX', { duration: .5, ease: 'power3.out' }), ry = G.quickTo(c, 'rotationY', { duration: .5, ease: 'power3.out' });
       G.set(c, { transformPerspective: 900 });
-      c.addEventListener('pointerenter', function () { var p = per(); G.fromTo(r, { strokeDasharray: p, strokeDashoffset: p }, { strokeDashoffset: 0, duration: .9, ease: 'power2.inOut' }); });
-      c.addEventListener('pointermove', function (e) { var b = c.getBoundingClientRect(); ry(((e.clientX - b.left) / b.width - .5) * 10); rx(-((e.clientY - b.top) / b.height - .5) * 8); });
-      c.addEventListener('pointerleave', function () { rx(0); ry(0); G.to(r, { strokeDashoffset: per(), duration: .5 }); });
+      c.addEventListener('pointerenter', function () { G.to(r, { strokeDashoffset: 0, duration: .9, ease: 'power2.inOut' }); });
+      c.addEventListener('pointermove', function (e) { var b = c.getBoundingClientRect(); ry(((e.clientX - b.left) / b.width - .5) * 8); rx(-((e.clientY - b.top) / b.height - .5) * 6); });
+      c.addEventListener('pointerleave', function () { rx(0); ry(0); G.to(r, { strokeDashoffset: 100, duration: .5 }); });
     });
   }
 
@@ -652,8 +722,9 @@
     };
     activer(0);
     ST.create({ trigger: '.etapes', start: 'top bottom', end: 'bottom top', onUpdate: choisir, onRefresh: choisir, onToggle: choisir });
-    if (!calme) etapes.forEach(function (li) {
-      G.from(li, { opacity: .25, duration: .6, scrollTrigger: { trigger: li, start: 'top 75%', end: 'top 45%', scrub: true } });
+    if (calme) return;
+    etapes.forEach(function (li) {
+      G.from($$('.etape__num, h3, p', li), { y: 24, opacity: 0, duration: .7, stagger: .08, ease: 'power3.out', scrollTrigger: { trigger: li, start: 'top 80%', once: true } });
     });
     G.from('.seance li', { x: -24, opacity: 0, stagger: .1, duration: .6, scrollTrigger: { trigger: '.seance', start: 'top 85%', once: true } });
   }
@@ -670,7 +741,7 @@
     if (!cartes.length) return;
     var corde = $('.avis__corde .corde path');
     if (corde) { var L = corde.getTotalLength(); G.fromTo(corde, { strokeDasharray: L, strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.inOut', scrollTrigger: { trigger: corde, start: 'top 85%', once: true } }); }
-    G.from(cartes, { y: -60, opacity: 0, rotation: function (i) { return i % 2 ? 14 : -14; }, duration: 1.1, stagger: .15, ease: 'elastic.out(1, .5)', scrollTrigger: { trigger: '.avis__cartes', start: 'top 82%', once: true } });
+    G.from(cartes, { y: -60, opacity: 0, rotation: function (i) { return (i % 2 ? 1 : -1) * (window.innerWidth < 700 ? 5 : 12); }, duration: 1.1, stagger: .15, ease: 'elastic.out(1, .5)', scrollTrigger: { trigger: '.avis__cartes', start: 'top 82%', once: true } });
     var quick = cartes.map(function (c) { return G.quickTo(c, 'rotation', { duration: .9, ease: 'elastic.out(1, .35)' }); });
     ST.create({ trigger: '.avis', start: 'top bottom', end: 'bottom top', onUpdate: function (s) {
       var v = Math.max(-7, Math.min(7, s.getVelocity() / 260));
@@ -735,17 +806,25 @@
         var cible = d.getElementById(decodeURIComponent(url.hash.slice(1)));
         if (!cible) return;
         e.preventDefault();
-        lenis.scrollTo(cible, { offset: -(hauteurEntete() + 20), duration: 1.4 });
+        var loin = Math.abs(cible.getBoundingClientRect().top) > window.innerHeight * 3;
+        lenis.scrollTo(cible, { offset: -(hauteurEntete() + 20), duration: 1.1, immediate: loin });
         history.replaceState(null, '', url.hash);
-        setTimeout(function () { cible.setAttribute('tabindex', '-1'); cible.focus({ preventScroll: true }); }, 1400);
+        setTimeout(function () { cible.setAttribute('tabindex', '-1'); cible.focus({ preventScroll: true }); }, loin ? 80 : 1150);
       });
     });
   }
 
+  function initGaleriSansGsap() {
+    var g = $('[data-galerie]'); if (!g) return;
+    var piste = $('.galerie__piste', g);
+    $('[data-galerie-prec]', g).addEventListener('click', function () { piste.scrollBy({ left: -320 }); });
+    $('[data-galerie-suiv]', g).addEventListener('click', function () { piste.scrollBy({ left: 320 }); });
+  }
+
   /* ================================================================ Démarrage */
-  initConfort(); initMenu(); initEtapesCopies(); initVisuels(); initCopier(); initFormulaire(); initCalculateurs(); initFiltre(); initCarte();
+  initConfort(); initMenu(); initVisuels(); initCopier(); initFormulaire(); initFormulaireCourt(); initSaisie(); initCalculateurs(); initFiltre(); initCarte();
   initPersienne();
-  if (!avecGsap) return;
+  if (!avecGsap) { root.classList.add('anim-fin'); initGaleriSansGsap(); return; }
   G.registerPlugin(ST);
   if (window.SplitText) G.registerPlugin(SplitText);
   if (window.MorphSVGPlugin) G.registerPlugin(MorphSVGPlugin);
@@ -763,11 +842,15 @@
     } else {
       initGalerie(); initEtapes();
     }
+    root.classList.add('anim-fin');
     initFil();
     ST.refresh();
     if (location.hash && d.getElementById(location.hash.slice(1))) {
       setTimeout(function () { var c = d.getElementById(location.hash.slice(1)); if (lenis) lenis.scrollTo(c, { offset: -(hauteurEntete() + 20), immediate: true }); else c.scrollIntoView(); }, 60);
     }
   }
-  if (d.fonts && d.fonts.ready) { d.fonts.ready.then(demarrer); setTimeout(demarrer, 1600); } else demarrer();
+  if (d.fonts && d.fonts.load) {
+    Promise.all([d.fonts.load('500 1em Fraunces'), d.fonts.load('italic 500 1em Fraunces'), d.fonts.load('1em "Atkinson Hyperlegible Next"')]).then(demarrer, demarrer);
+    setTimeout(demarrer, 900);
+  } else demarrer();
 })();

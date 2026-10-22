@@ -2,22 +2,20 @@
 
 Site statique (HTML, CSS, JavaScript), sans étape de construction, prêt pour Vercel.
 
-- `index.html` : accueil
-- `services.html` : services et tarifs
-- `reinsertion.html` : accompagnement en réinsertion
+- `index.html` : accueil · `services.html` : services et tarifs · `reinsertion.html` : réinsertion · `404.html` : page introuvable
 - `assets/css/site.css` : styles et jetons de couleur
-- `assets/js/site.js` : fil, animations, simulateur, formulaire simulé
-- `assets/js/persienne.js` : lumière de persienne en WebGL (OGL)
-- `assets/vendor/` : GSAP, Lenis, OGL hébergés avec le site
-- `assets/fonts/` : Fraunces et Atkinson Hyperlegible Next (licence OFL)
+- `assets/js/site.js` : fil, animations, simulateur, formulaires simulés
+- `assets/js/persienne.js` : lumière de persienne en WebGL (sans bibliothèque)
+- `assets/vendor/` : GSAP et ses extensions, Lenis
+- `assets/fonts/` : Fraunces et Atkinson Hyperlegible Next en WOFF2 (licence OFL)
+- `assets/img/` : images WebP en deux tailles, image de partage `partage.jpg`
 
 ## Images
 
-Chaque emplacement porte un nom (`data-img`). Tant qu'une image manque, un visuel provisoire est dessiné en code.
-Pour en ajouter une : déposer `nom-800.webp` et `nom-1600.webp` dans `assets/img/`, puis déclarer le nom dans
-`assets/img/images.js`, par exemple `"accueil-heros": [800, 1600]`.
+Chaque photo est écrite directement dans le HTML (`<picture>`, deux tailles, point focal réglé).
+Pour remplacer une image, garder le même nom de fichier et les mêmes largeurs.
 
 ## Démonstration
 
-Formulaire de rendez-vous et simulateur de coût sans envoi réel. Les éléments marqués « à confirmer »,
-« à compléter » ou « à préciser » doivent être validés avec Florent avant la mise en ligne.
+Formulaires et simulateur sans envoi réel. Le site est marqué `noindex` tant qu'il s'agit d'une maquette.
+Les éléments marqués « à confirmer », « à compléter » ou « à préciser » sont à valider avec Florent.

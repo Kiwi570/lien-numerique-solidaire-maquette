@@ -9,25 +9,40 @@
 <meta name="theme-color" content="#F6ECDB">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icone-32.png">
 <link rel="apple-touch-icon" href="assets/img/icone-180.png">
-<link rel="preload" href="assets/fonts/fraunces.woff" as="font" type="font/woff" crossorigin>
-<link rel="preload" href="assets/fonts/atkinson-next.woff" as="font" type="font/woff" crossorigin>
-<link rel="stylesheet" href="assets/vendor/lenis.css">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Le Lien Numérique Solidaire">
+<meta property="og:title" content="Le Lien Numérique Solidaire">
+<meta property="og:description" content="Cours et aide informatique à domicile pour seniors à Marseille. 30 € de l&#x27;heure, soit 15 € après crédit d&#x27;impôt de 50 %. Première visite gratuite de 30 minutes.">
+<meta property="og:image" content="https://lien-numerique-solidaire-maquette.vercel.app/assets/img/partage.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/atkinson-next.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
-<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('lns-confort')==='1')d.classList.add('confort')}catch(e){}})();</script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{if(localStorage.getItem('lns-confort')==='1')d.classList.add('confort')}catch(e){}
+if(!d.classList.contains('confort')&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('anim');setTimeout(function(){d.classList.add('anim-fin')},3500)}})();</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LocalBusiness", "name": "Le Lien Numérique Solidaire", "description": "Cours et aide informatique à domicile pour seniors à Marseille.", "telephone": "+33465847968", "email": "contact@lelienumeriquesolidaire.fr", "url": "https://lelienumeriquesolidaire.fr/", "founder": {"@type": "Person", "name": "Florent Arnaud"}, "address": {"@type": "PostalAddress", "streetAddress": "8 rue de la République, bureau 3", "postalCode": "13001", "addressLocality": "Marseille", "addressCountry": "FR"}, "areaServed": "Marseille", "priceRange": "15 € – 30 € de l'heure"}</script>
 </head>
 <body><a class="evitement" href="#contenu">Aller au contenu</a>
-<div class="bandeau-solidaire"><div class="enveloppe"><span class="bandeau__long">Accompagnement numérique solidaire : tarif à 15 € de l'heure pour les bénéficiaires du RSA, de l'AAH et de l'ASPA.</span><span class="bandeau__court">Tarif solidaire 15 € de l'heure : RSA, AAH, ASPA.</span> <a href="services.html#tarifs">Voir les tarifs</a></div></div>
+<div class="bandeau-solidaire"><div class="enveloppe"><span class="bandeau__long">Tarif solidaire pour les bénéficiaires du RSA, de l’AAH et de l’ASPA : 15 € de l’heure, soit 7,50 € après crédit d’impôt.</span><span class="bandeau__court">Tarif solidaire RSA, AAH, ASPA : 15 € de l’heure, 7,50 € après crédit d’impôt.</span> <a href="#tarifs">Voir les tarifs</a></div></div>
 <header class="entete">
   <div class="enveloppe entete__in">
     <a class="logo" href="./" aria-label="Le Lien Numérique Solidaire, accueil"><img class="logo__img" src="assets/img/logo-240.webp" srcset="assets/img/logo-240.webp 240w, assets/img/logo-480.webp 480w" sizes="160px" width="240" height="96" alt=""></a>
     <nav class="nav" aria-label="Navigation principale"><ul><li><a href="./#accompagnements">Accompagnements</a></li><li><a href="services.html">Services et tarifs</a></li><li><a href="reinsertion.html">Réinsertion</a></li><li><a href="./#florent">À propos</a></li><li><a href="./#rendez-vous">Contact</a></li></ul></nav>
     <div class="entete__actions">
-      <a class="tel-entete" href="tel:+33465847968" aria-label="Appeler le 04 65 84 79 68"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.8h3.1l1.9 4.6-2.3 1.5a11.5 11.5 0 0 0 6.2 6.2l1.5-2.3 4.6 1.9v3.1a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 3.2 5.9a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span>04 65 84 79 68</span></a>
-      <button class="bouton-confort" type="button" aria-pressed="false" title="Texte plus grand, contrastes renforcés, animations calmes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 18.5 7.6 5.5l5.1 13M4.4 14h6.4M16.5 18.5v-5.2a2.6 2.6 0 0 1 5.2 0v5.2M16.5 15h5.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mode confort</span></button>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-mobile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Menu</span></button>
+      <a class="tel-entete" href="tel:+33465847968" aria-label="Appeler le 04 65 84 79 68" title="Appeler le 04 65 84 79 68"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.8h3.1l1.9 4.6-2.3 1.5a11.5 11.5 0 0 0 6.2 6.2l1.5-2.3 4.6 1.9v3.1a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 3.2 5.9a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span>04 65 84 79 68</span></a>
+      <button class="bouton-confort" type="button" aria-pressed="false" aria-label="Mode confort : texte plus grand, animations calmes" title="Texte plus grand, contrastes renforcés, animations calmes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 18.5 7.6 5.5l5.1 13M4.4 14h6.4M16.5 18.5v-5.2a2.6 2.6 0 0 1 5.2 0v5.2M16.5 15h5.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mode confort</span></button>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-mobile" aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Menu</span></button>
     </div>
   </div>
-  <div id="menu-mobile" class="menu-mobile" hidden><nav class="enveloppe" aria-label="Menu mobile"><ul><li><a href="./#accompagnements">Accompagnements</a></li><li><a href="services.html">Services et tarifs</a></li><li><a href="reinsertion.html">Réinsertion</a></li><li><a href="./#florent">À propos</a></li><li><a href="./#rendez-vous">Contact</a></li></ul></nav></div>
+  <div id="menu-mobile" class="menu-mobile" hidden><nav class="enveloppe" aria-label="Menu mobile"><ul><li><a href="./#accompagnements">Accompagnements</a></li><li><a href="services.html">Services et tarifs</a></li><li><a href="reinsertion.html">Réinsertion</a></li><li><a href="./#florent">À propos</a></li><li><a href="./#rendez-vous">Contact</a></li></ul>
+    <div class="menu-mobile__plus"><a class="bouton bouton--trait" href="tel:+33465847968"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.8h3.1l1.9 4.6-2.3 1.5a11.5 11.5 0 0 0 6.2 6.2l1.5-2.3 4.6 1.9v3.1a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 3.2 5.9a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span>Appeler le 04 65 84 79 68</span></a>
+    <button class="bouton bouton--trait bouton-confort" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 18.5 7.6 5.5l5.1 13M4.4 14h6.4M16.5 18.5v-5.2a2.6 2.6 0 0 1 5.2 0v5.2M16.5 15h5.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Mode confort</span></button>
+    <p class="menu-mobile__aide">Le mode confort agrandit le texte, renforce les contrastes et calme les animations.</p></div></nav></div>
 </header>
 <main id="contenu">
 
@@ -38,16 +53,16 @@
       <p class="surtitre">Cours et aide informatique à domicile · Marseille</p>
       <svg class="heros__lien" viewBox="0 0 600 110" aria-hidden="true" preserveAspectRatio="xMinYMid meet"><path data-lien d="M8 88C24 86 38 62 46 34C52 14 42 6 36 22C30 40 34 74 48 86C56 92 64 76 68 58C68 72 66 86 78 88C92 90 102 74 102 66C102 56 88 56 86 68C84 80 94 90 108 86C118 82 122 68 124 58C124 70 124 80 124 88C128 70 138 56 148 60C156 64 152 80 158 88C168 96 186 90 204 82"/><circle data-lien-point cx="70" cy="42" r="4"/></svg>
       <h1 class="heros__titre" id="titre-heros">Retrouvez votre autonomie numérique et votre <em>fierté</em></h1>
-      <p class="heros__chapo">Apprenez l'informatique en toute sérénité, chez vous et à votre rythme, avec un accompagnement humain à Marseille.</p>
+      <p class="heros__chapo">Apprenez l’informatique en toute sérénité, chez vous et à votre rythme, avec un accompagnement humain à Marseille.</p>
       <div class="actions">
         <a class="bouton bouton--plein magnetique" href="#rendez-vous"><span class="bouton__texte">Réserver la visite gratuite<small>30 minutes, chez vous</small></span></a>
-        <a class="bouton bouton--trait magnetique" href="tel:+33465847968"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.8h3.1l1.9 4.6-2.3 1.5a11.5 11.5 0 0 0 6.2 6.2l1.5-2.3 4.6 1.9v3.1a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 3.2 5.9a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span>Appeler le 04 65 84 79 68</span></a>
+        <a class="bouton bouton--trait magnetique" href="tel:+33465847968"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.8h3.1l1.9 4.6-2.3 1.5a11.5 11.5 0 0 0 6.2 6.2l1.5-2.3 4.6 1.9v3.1a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 3.2 5.9a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><span>Appeler le 04 65 84 79 68</span></a>
       </div>
-      <p class="heros__prix"><span class="prix-coupe" data-prix-coupe><span class="prix-coupe__avant"><span class="prix-coupe__moitie prix-coupe__moitie--haut">30&nbsp;€</span><span class="prix-coupe__moitie prix-coupe__moitie--bas" aria-hidden="true">30&nbsp;€</span><span class="prix-coupe__trait" aria-hidden="true"></span></span><span class="prix-coupe__apres">15&nbsp;€</span></span><span>de l'heure après crédit d'impôt de 50 %, déplacement inclus</span></p>
+      <p class="heros__prix"><span class="prix-coupe" data-prix-coupe><span class="sr">30 € de l’heure, soit 15 € après le crédit d’impôt de 50 %</span><span class="prix-coupe__avant" aria-hidden="true"><span class="prix-coupe__moitie prix-coupe__moitie--haut">30&nbsp;€</span><span class="prix-coupe__moitie prix-coupe__moitie--bas">30&nbsp;€</span><span class="prix-coupe__trait"></span></span><span class="prix-coupe__fleche" aria-hidden="true">→</span><span class="prix-coupe__apres" aria-hidden="true">15&nbsp;€</span></span><span>de l’heure après le crédit d’impôt de 50 %, déplacement inclus</span></p>
     </div>
     <div class="heros__visuel">
-      <figure class="visuel visuel--cadre" data-img="accueil-heros" data-icone="mains" data-source="G" data-img-mobile="accueil-heros-mobile" role="img" aria-label="Les mains d&#x27;une femme âgée tenant une tablette, guidées par la main d&#x27;un accompagnant"><div class="visuel__dedans"></div></figure>
-      <p class="heros__tampon" aria-label="Premier rendez-vous gratuit de 30 minutes"><span><strong>30 min</strong>offertes<br>chez vous</span></p>
+      <figure class="visuel visuel--cadre visuel--photo" data-img="accueil-heros"><div class="visuel__dedans"><picture><source media="(max-width: 700px)" srcset="assets/img/accueil-heros-mobile-640.webp 640w, assets/img/accueil-heros-mobile-1024.webp 1024w" sizes="100vw"><img src="assets/img/accueil-heros-800.webp" srcset="assets/img/accueil-heros-800.webp 800w, assets/img/accueil-heros-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 50vw" alt="Les mains d&#x27;une femme âgée tenant une tablette, guidées par la main d&#x27;un accompagnant" loading="eager" fetchpriority="high" decoding="async" style="--pos: 74% 55%; --pos-m: 45% 45%;"></picture></div></figure>
+      <p class="heros__tampon"><span class="sr">Première visite de 30 minutes offerte, chez vous.</span><span aria-hidden="true"><strong>30 min</strong>offertes<br>chez vous</span></p>
     </div>
   </div>
 </section>
@@ -57,7 +72,7 @@
     <div>
       <h2 class="sr" id="titre-reperes">Quelques repères</h2>
       <div class="compteur-bloc">
-        <p class="compteur-bloc__chiffre" aria-label="Plus de 200"><span>+</span><span data-compteur="200">200</span></p>
+        <p class="compteur-bloc__chiffre"><span class="sr">Plus de 200</span><span aria-hidden="true"><span>+</span><span data-compteur="200">200</span></span></p>
         <div class="points-couture" aria-hidden="true" data-points="40"></div>
         <p class="compteur-bloc__legende">seniors accompagnés à Marseille depuis 2022.</p>
       </div>
@@ -68,7 +83,7 @@
         <li><b>Prêté</b><span>Ordinateur, tablette ou smartphone prêté pendant la séance si besoin</span></li>
       </ul>
     </div>
-    <div class="reperes__visuel"><figure class="visuel visuel--cadre" data-img="accueil-fenetre-marseille" data-icone="fenetre" data-source="G" role="img" aria-label="Les toits de Marseille vus par une fenêtre ouverte, une tablette sur le rebord"><div class="visuel__dedans"></div></figure></div>
+    <div class="reperes__visuel"><figure class="visuel visuel--cadre visuel--photo" data-img="accueil-fenetre-marseille"><div class="visuel__dedans"><picture><img src="assets/img/accueil-fenetre-marseille-640.webp" srcset="assets/img/accueil-fenetre-marseille-640.webp 640w, assets/img/accueil-fenetre-marseille-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Les toits de Marseille vus par une fenêtre ouverte, une tablette sur le rebord" loading="lazy" decoding="async" style="--pos: 50% 55%;"></picture></div></figure></div>
   </div>
 </section>
 
@@ -81,26 +96,38 @@
     </div>
   </div>
   <div class="galerie" data-galerie>
+    <div class="galerie__collant">
     <div class="enveloppe">
-      <div class="galerie__piste">
-        <article class="etiquette" data-incline>
-        <figure class="visuel" data-img="accompagnement-initiation" data-icone="ordinateur" data-source="G" role="img" aria-label="La main d&#x27;un homme âgé posée sur une souris, à côté d&#x27;un ordinateur portable"><div class="visuel__dedans"></div></figure>
-        <div class="etiquette__corps"><p class="etiquette__duree">5 séances</p><h3>Initiation au numérique</h3><p>Découvrez les bases en douceur : allumer l'ordinateur, utiliser la souris, naviguer sur Internet, créer vos premiers e-mails.</p><p class="etiquette__prix">30 € de l'heure, 15 € après crédit d'impôt</p></div>
-      </article><article class="etiquette" data-incline>
-        <figure class="visuel" data-img="accompagnement-smartphone" data-icone="smartphone" data-source="G" role="img" aria-label="Une femme âgée vue de dos pendant un appel vidéo sur son smartphone"><div class="visuel__dedans"></div></figure>
-        <div class="etiquette__corps"><p class="etiquette__duree">À la demande</p><h3>Smartphone et tablette apprivoisés</h3><p>Photos, messages, appels vidéo avec la famille, applications utiles au quotidien : votre téléphone devient un allié.</p><p class="etiquette__prix">30 € de l'heure, 15 € après crédit d'impôt</p></div>
-      </article><article class="etiquette" data-incline>
-        <figure class="visuel" data-img="accompagnement-demarches" data-icone="enveloppe" data-source="G" role="img" aria-label="Une table rangée avec un ordinateur, des enveloppes et des lunettes"><div class="visuel__dedans"></div></figure>
-        <div class="etiquette__corps"><p class="etiquette__duree">2 à 3 séances</p><h3>Mes démarches en ligne</h3><p>CAF, Ameli, impôts, retraite : gérez vos papiers en toute autonomie. Fini les files d'attente et le stress.</p><p class="etiquette__prix">30 € de l'heure, 15 € après crédit d'impôt</p></div>
-      </article><article class="etiquette" data-incline>
-        <figure class="visuel" data-img="accompagnement-email" data-icone="enveloppe" data-source="G" role="img" aria-label="Des mains qui tapent sur un clavier à côté d&#x27;un petit carnet"><div class="visuel__dedans"></div></figure>
-        <div class="etiquette__corps"><p class="etiquette__duree">Selon vos besoins</p><h3>E-mail sécurisé</h3><p>Créer une adresse, sécuriser vos accès, lire et répondre aux messages, éviter les arnaques.</p><p class="etiquette__prix">30 € de l'heure, 15 € après crédit d'impôt</p></div>
-      </article><article class="etiquette" data-incline>
-        <figure class="visuel" data-img="accompagnement-securite" data-icone="bouclier" data-source="G" role="img" aria-label="Un homme âgé qui s&#x27;arrête pour vérifier une notification sur son smartphone"><div class="visuel__dedans"></div></figure>
-        <div class="etiquette__corps"><p class="etiquette__duree">1 à 2 séances</p><h3>Sécurité numérique</h3><p>Reconnaître les fraudes et les faux messages, créer des mots de passe solides, protéger vos comptes.</p><p class="etiquette__prix">30 € de l'heure, 15 € après crédit d'impôt</p></div>
-      </article>
-        <article class="etiquette etiquette--fin"><h3>Et aussi : ateliers collectifs, associations, réinsertion.</h3><p>Huit services au total, avec leurs durées et leurs tarifs.</p><a class="lien-fleche" href="services.html">Voir les services et tarifs <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></article>
+      <div class="galerie__commandes" data-galerie-commandes>
+        <p class="galerie__aide">Faites glisser pour voir les cinq accompagnements.</p>
+        <button type="button" class="galerie__fleche" data-galerie-prec aria-label="Accompagnement précédent">←</button>
+        <button type="button" class="galerie__fleche" data-galerie-suiv aria-label="Accompagnement suivant">→</button>
       </div>
+      <div class="galerie__piste" role="list">
+        <article class="etiquette" role="listitem" data-incline>
+        <figure class="visuel visuel--photo" data-img="accompagnement-initiation"><div class="visuel__dedans"><picture><img src="assets/img/accompagnement-initiation-640.webp" srcset="assets/img/accompagnement-initiation-640.webp 640w, assets/img/accompagnement-initiation-1024.webp 1024w" sizes="(max-width: 620px) 92vw, (max-width: 1100px) 46vw, 420px" alt="La main d&#x27;une personne âgée posée sur une souris, à côté d&#x27;un ordinateur portable" loading="lazy" decoding="async" style="--pos: 50% 62%;"></picture></div></figure>
+        <div class="etiquette__corps"><p class="etiquette__duree">5 séances</p><h3>Initiation au numérique</h3><p>Découvrez les bases en douceur : allumer l’ordinateur, utiliser la souris, naviguer sur Internet, créer vos premiers e-mails.</p><p class="etiquette__prix">30 € de l’heure, 15 € après crédit d’impôt</p>
+        <a class="lien-fleche" href="#rendez-vous" data-besoin="ordinateur">Choisir cet accompagnement <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </article><article class="etiquette" role="listitem" data-incline>
+        <figure class="visuel visuel--photo" data-img="accompagnement-smartphone"><div class="visuel__dedans"><picture><img src="assets/img/accompagnement-smartphone-640.webp" srcset="assets/img/accompagnement-smartphone-640.webp 640w, assets/img/accompagnement-smartphone-1024.webp 1024w" sizes="(max-width: 620px) 92vw, (max-width: 1100px) 46vw, 420px" alt="Une femme âgée vue de dos pendant un appel vidéo sur son smartphone" loading="lazy" decoding="async" style="--pos: 50% 32%;"></picture></div></figure>
+        <div class="etiquette__corps"><p class="etiquette__duree">À la demande</p><h3>Smartphone et tablette apprivoisés</h3><p>Photos, messages, appels vidéo avec la famille, applications utiles au quotidien : votre téléphone devient un allié.</p><p class="etiquette__prix">30 € de l’heure, 15 € après crédit d’impôt</p>
+        <a class="lien-fleche" href="#rendez-vous" data-besoin="smartphone">Choisir cet accompagnement <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </article><article class="etiquette" role="listitem" data-incline>
+        <figure class="visuel visuel--photo" data-img="accompagnement-demarches"><div class="visuel__dedans"><picture><img src="assets/img/accompagnement-demarches-640.webp" srcset="assets/img/accompagnement-demarches-640.webp 640w, assets/img/accompagnement-demarches-1024.webp 1024w" sizes="(max-width: 620px) 92vw, (max-width: 1100px) 46vw, 420px" alt="Une table rangée avec un ordinateur, des enveloppes et des lunettes" loading="lazy" decoding="async" style="--pos: 55% 65%;"></picture></div></figure>
+        <div class="etiquette__corps"><p class="etiquette__duree">2 à 3 séances</p><h3>Mes démarches en ligne</h3><p>CAF, Ameli, impôts, retraite : gérez vos papiers en toute autonomie. Fini les files d’attente et le stress.</p><p class="etiquette__prix">30 € de l’heure, 15 € après crédit d’impôt</p>
+        <a class="lien-fleche" href="#rendez-vous" data-besoin="demarches">Choisir cet accompagnement <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </article><article class="etiquette" role="listitem" data-incline>
+        <figure class="visuel visuel--photo" data-img="accompagnement-email"><div class="visuel__dedans"><picture><img src="assets/img/accompagnement-email-640.webp" srcset="assets/img/accompagnement-email-640.webp 640w, assets/img/accompagnement-email-1024.webp 1024w" sizes="(max-width: 620px) 92vw, (max-width: 1100px) 46vw, 420px" alt="Des mains qui tapent sur un clavier à côté d&#x27;un petit carnet" loading="lazy" decoding="async" style="--pos: 50% 62%;"></picture></div></figure>
+        <div class="etiquette__corps"><p class="etiquette__duree">Selon vos besoins</p><h3>E-mail sécurisé</h3><p>Créer une adresse, sécuriser vos accès, lire et répondre aux messages, éviter les arnaques.</p><p class="etiquette__prix">30 € de l’heure, 15 € après crédit d’impôt</p>
+        <a class="lien-fleche" href="#rendez-vous" data-besoin="email">Choisir cet accompagnement <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </article><article class="etiquette" role="listitem" data-incline>
+        <figure class="visuel visuel--photo" data-img="accompagnement-securite"><div class="visuel__dedans"><picture><img src="assets/img/accompagnement-securite-640.webp" srcset="assets/img/accompagnement-securite-640.webp 640w, assets/img/accompagnement-securite-1024.webp 1024w" sizes="(max-width: 620px) 92vw, (max-width: 1100px) 46vw, 420px" alt="Un homme âgé qui s&#x27;arrête pour vérifier une notification sur son smartphone" loading="lazy" decoding="async" style="--pos: 50% 50%;"></picture></div></figure>
+        <div class="etiquette__corps"><p class="etiquette__duree">1 à 2 séances</p><h3>Sécurité numérique</h3><p>Reconnaître les fraudes et les faux messages, créer des mots de passe solides, protéger vos comptes.</p><p class="etiquette__prix">30 € de l’heure, 15 € après crédit d’impôt</p>
+        <a class="lien-fleche" href="#rendez-vous" data-besoin="arnaques">Choisir cet accompagnement <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+      </article>
+        <article class="etiquette etiquette--fin" role="listitem"><h3>Et aussi : ateliers collectifs, associations, réinsertion.</h3><p>Huit services au total, avec leurs durées et leurs tarifs.</p><a class="lien-fleche" href="services.html">Voir les services et tarifs <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a></article>
+      </div>
+    </div>
     </div>
   </div>
 </section>
@@ -108,21 +135,21 @@
 <section class="section florent" id="florent" data-fil-section="gauche" aria-labelledby="titre-florent">
   <div class="enveloppe florent__grille">
     <figure class="florent__portrait">
-      <figure class="visuel visuel--cadre" data-img="florent-portrait" data-icone="portrait" data-source="S" role="img" aria-label="Portrait de Florent Arnaud"><div class="visuel__dedans"></div></figure>
+      <figure class="visuel visuel--cadre visuel--photo" data-img="florent-portrait"><div class="visuel__dedans"><picture><img src="assets/img/florent-portrait-600.webp" srcset="assets/img/florent-portrait-600.webp 600w, assets/img/florent-portrait-840.webp 840w" sizes="(max-width: 900px) 100vw, 50vw" alt="Portrait de Florent Arnaud" loading="lazy" decoding="async" style="--pos: 50% 50%;"></picture></div></figure>
       <figcaption>Florent Arnaud, fondateur du Lien Numérique Solidaire.</figcaption>
     </figure>
     <div class="florent__texte">
       <p class="surtitre">Qui suis-je ?</p>
       <h2 id="titre-florent" data-titre-anime>Le numérique ne doit laisser <em>personne</em> de côté</h2>
-      <p class="chapo">Je m'appelle Florent Arnaud. Installé à Marseille, j'ai créé Le Lien Numérique Solidaire avec une conviction simple : chacun, quel que soit son âge, peut retrouver sa fierté et son autonomie avec les outils numériques.</p>
-      <p>J'ai réalisé un service civique au sein de l'association Emmaüs Connect, où j'ai accompagné des personnes en difficulté face aux outils numériques. Cette expérience a été une révélation : je voulais accompagner, transmettre et redonner du pouvoir d'agir à chacun.</p>
+      <p class="chapo">Je m’appelle Florent Arnaud. Installé à Marseille, j’ai créé Le Lien Numérique Solidaire avec une conviction simple : chacun, quel que soit son âge, peut retrouver sa fierté et son autonomie avec les outils numériques.</p>
+      <p>J’ai réalisé un service civique au sein de l’association Emmaüs Connect, où j’ai accompagné des personnes en difficulté face aux outils numériques. Cette expérience a été une révélation : je voulais accompagner, transmettre et redonner du pouvoir d’agir à chacun.</p>
       <p>Je suis aussi coach professionnel, certifié par MHD École Française de Coaching (titre enregistré au RNCP, niveau 6).</p>
-      <ul class="valeurs" aria-label="Mes valeurs"><li>Bienveillance</li><li>Patience</li><li>Écoute</li><li>Respect du rythme</li><li>Solidarité</li></ul>
+      <ul class="valeurs" role="list" aria-label="Mes valeurs"><li>Bienveillance</li><li>Patience</li><li>Écoute</li><li>Respect du rythme</li><li>Solidarité</li></ul>
       <div class="frise-zone"><span class="frise__ligne" aria-hidden="true"><i></i></span>
       <ol class="frise" aria-label="Mon parcours">
         <li><b>Depuis 2020</b><span>Coach professionnel certifié RNCP</span></li>
         <li><b>2021</b><span>Service civique chez Emmaüs Connect</span></li>
-        <li><b>Depuis 2022</b><span>Plus de 200 seniors accompagnés</span></li>
+        <li><b>Depuis 2022</b><span>Plus de 200 seniors accompagnés <span class="a-completer">cadre à préciser</span></span></li>
         <li><b>2025</b><span>Création du Lien Numérique Solidaire</span></li>
       </ol></div>
     </div>
@@ -133,16 +160,16 @@
   <div class="enveloppe">
     <div class="tete-section">
       <p class="surtitre">Pourquoi me faire confiance ?</p>
-      <h2 id="titre-eng" data-titre-anime>L'accompagnement humain qui fait toute la <em>différence</em></h2>
-      <p class="chapo">Parce que chacun mérite de comprendre le numérique, j'explique avec des mots simples, sans jargon et sans jugement.</p>
+      <h2 id="titre-eng" data-titre-anime>L’accompagnement humain qui fait toute la <em>différence</em></h2>
+      <p class="chapo">Parce que chacun mérite de comprendre le numérique, j’explique avec des mots simples, sans jargon et sans jugement.</p>
     </div>
-    <ul class="engagements__grille" style="list-style:none">
-      <li class="engagement"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 16a44 44 0 1 1-.1 0ZM60 34v28l18 12"/></svg><h3>Patience garantie</h3><p>Je prends le temps qu'il faut. Si vous voulez qu'on <span class="echo" data-echo>répète</span> cinq fois, on répète cinq fois. Zéro jugement.</p></li>
+    <ul class="engagements__grille" role="list">
+      <li class="engagement"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 16a44 44 0 1 1-.1 0ZM60 34v28l18 12"/></svg><h3>Patience garantie</h3><p>Je prends le temps qu’il faut. Si vous voulez qu’on <span class="echo" data-echo>répète</span> cinq fois, on répète cinq fois. Zéro jugement.</p></li>
       <li class="engagement"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 18a24 24 0 1 1-.1 0ZM49 42l8 8 15-15M47 64l-10 38 23-12 23 12-10-38"/></svg><h3>Méthode adaptée</h3><p>Coach professionnel certifié, avec une méthode pensée pour les seniors et appuyée sur la plateforme Les Bons Clics.</p></li>
       <li class="engagement"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M16 62 60 24l44 38M28 52v50h64V52M52 102V76h16v26"/></svg><h3>Chez vous, en sécurité</h3><p>Intervention directement à votre domicile. Pas de stress, pas de déplacement.</p></li>
-      <li class="engagement"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 98C35 80 18 66 18 46c0-13 10-23 22-23 9 0 16 5 20 13 4-8 11-13 20-13 12 0 22 10 22 23 0 20-17 34-42 52Z"/></svg><h3>Approche solidaire</h3><p>Tarifs adaptés selon vos moyens. Une partie des revenus est reversée à l'inclusion numérique. <span class="a-completer">part à préciser</span></p></li>
+      <li class="engagement"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M60 98C35 80 18 66 18 46c0-13 10-23 22-23 9 0 16 5 20 13 4-8 11-13 20-13 12 0 22 10 22 23 0 20-17 34-42 52Z"/></svg><h3>Approche solidaire</h3><p>Tarifs adaptés selon vos moyens. Une partie des revenus est reversée à l’inclusion numérique. <span class="a-completer">part à préciser</span></p></li>
     </ul>
-    <div class="engagements__visuel"><figure class="visuel" data-img="accueil-tasses-tablette" data-icone="tasses" data-source="G" role="img" aria-label="Deux tasses de café et une tablette sur une petite table près d&#x27;une fenêtre" style="--ratio: 21 / 9"><div class="visuel__dedans"></div></figure></div>
+    <div class="engagements__visuel"><figure class="visuel visuel--photo" data-img="accueil-tasses-tablette" style="--ratio: 21 / 9"><div class="visuel__dedans"><picture><img src="assets/img/accueil-tasses-tablette-800.webp" srcset="assets/img/accueil-tasses-tablette-800.webp 800w, assets/img/accueil-tasses-tablette-1536.webp 1536w" sizes="(max-width: 1320px) 100vw, 1320px" alt="Deux tasses de café et une tablette sur une petite table près d&#x27;une fenêtre" loading="lazy" decoding="async" style="--pos: 50% 50%;"></picture></div></figure></div>
   </div>
 </section>
 
@@ -150,15 +177,15 @@
   <div class="enveloppe">
     <div class="tete-section">
       <p class="surtitre">Comment ça se passe ?</p>
-      <h2 id="titre-etapes" data-titre-anime>Commencez dès <em>aujourd'hui</em> en quatre étapes</h2>
+      <h2 id="titre-etapes" data-titre-anime>Commencez dès <em>aujourd’hui</em> en quatre étapes</h2>
       <p class="chapo">Démarrer est simple et rassurant : un appel, une visite découverte gratuite, puis votre apprentissage en toute sérénité.</p>
     </div>
     <div class="etapes__grille">
-      <div class="etapes__pile" aria-hidden="true"><figure class="visuel visuel--cadre" data-img="etape-1-appel" data-icone="appel" data-source="G" role="img" aria-label="Une femme âgée dans un fauteuil, le téléphone à l&#x27;oreille"><div class="visuel__dedans"></div></figure><figure class="visuel visuel--cadre" data-img="etape-2-porte" data-icone="porte" data-source="G" role="img" aria-label="La porte d&#x27;entrée d&#x27;un immeuble marseillais entrouverte sur la lumière du matin"><div class="visuel__dedans"></div></figure><figure class="visuel visuel--cadre" data-img="etape-3-materiel" data-icone="ordinateur" data-source="G" role="img" aria-label="Un ordinateur, une tablette et un smartphone posés côte à côte sur une nappe"><div class="visuel__dedans"></div></figure><figure class="visuel visuel--cadre" data-img="etape-4-carnet" data-icone="carnet" data-source="G" role="img" aria-label="Un carnet ouvert avec des schémas dessinés à la main, un crayon et un smartphone"><div class="visuel__dedans"></div></figure></div>
-      <ol class="etapes" style="list-style:none"><li class="etape" data-etape="0"><span class="etape__num" aria-hidden="true">01</span><h3>Premier contact</h3><p>Appelez-moi au 04 65 84 79 68 pour discuter tranquillement de vos besoins. Pas de vente forcée, juste de l'écoute.</p></li><li class="etape" data-etape="1"><span class="etape__num" aria-hidden="true">02</span><h3>Visite découverte gratuite</h3><p>Je viens chez vous 30 minutes, gratuitement. On regarde votre matériel et on définit vos objectifs ensemble.</p></li><li class="etape" data-etape="2"><span class="etape__num" aria-hidden="true">03</span><h3>Matériel mis à disposition</h3><p>Pas de matériel ? Aucun souci. Un ordinateur, une tablette ou un smartphone peuvent être prêtés pendant chaque séance.</p></li><li class="etape" data-etape="3"><span class="etape__num" aria-hidden="true">04</span><h3>Apprentissage personnalisé</h3><p>Des séances à votre rythme, chez vous. Vous progressez selon vos besoins et vos envies.</p></li></ol>
+      <div class="etapes__pile" aria-hidden="true"><figure class="visuel visuel--cadre visuel--photo" data-img="etape-1-appel"><div class="visuel__dedans"><picture><img src="assets/img/etape-1-appel-640.webp" srcset="assets/img/etape-1-appel-640.webp 640w, assets/img/etape-1-appel-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Une femme âgée dans un fauteuil, le téléphone à l&#x27;oreille" loading="lazy" decoding="async" style="--pos: 50% 30%;"></picture></div></figure><figure class="visuel visuel--cadre visuel--photo" data-img="etape-2-porte"><div class="visuel__dedans"><picture><img src="assets/img/etape-2-porte-640.webp" srcset="assets/img/etape-2-porte-640.webp 640w, assets/img/etape-2-porte-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="La porte d&#x27;entrée d&#x27;un immeuble marseillais entrouverte sur la lumière du matin" loading="lazy" decoding="async" style="--pos: 50% 41%;"></picture></div></figure><figure class="visuel visuel--cadre visuel--photo" data-img="etape-3-materiel"><div class="visuel__dedans"><picture><img src="assets/img/etape-3-materiel-640.webp" srcset="assets/img/etape-3-materiel-640.webp 640w, assets/img/etape-3-materiel-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un ordinateur, une tablette et un smartphone posés côte à côte sur une nappe" loading="lazy" decoding="async" style="--pos: 50% 44%;"></picture></div></figure><figure class="visuel visuel--cadre visuel--photo" data-img="etape-4-carnet"><div class="visuel__dedans"><picture><img src="assets/img/etape-4-carnet-640.webp" srcset="assets/img/etape-4-carnet-640.webp 640w, assets/img/etape-4-carnet-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un carnet ouvert avec des schémas dessinés à la main, un crayon et un smartphone" loading="lazy" decoding="async" style="--pos: 50% 75%;"></picture></div></figure></div>
+      <ol class="etapes" role="list"><li class="etape" data-etape="0"><figure class="visuel etape__visuel visuel--photo" data-img="etape-1-appel"><div class="visuel__dedans"><picture><img src="assets/img/etape-1-appel-640.webp" srcset="assets/img/etape-1-appel-640.webp 640w, assets/img/etape-1-appel-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Une femme âgée dans un fauteuil, le téléphone à l&#x27;oreille" loading="lazy" decoding="async" style="--pos: 50% 30%;"></picture></div></figure><span class="etape__num" aria-hidden="true">01</span><h3>Premier contact</h3><p>Appelez-moi au 04 65 84 79 68 pour discuter tranquillement de vos besoins. Pas de vente forcée, juste de l’écoute.</p></li><li class="etape" data-etape="1"><figure class="visuel etape__visuel visuel--photo" data-img="etape-2-porte"><div class="visuel__dedans"><picture><img src="assets/img/etape-2-porte-640.webp" srcset="assets/img/etape-2-porte-640.webp 640w, assets/img/etape-2-porte-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="La porte d&#x27;entrée d&#x27;un immeuble marseillais entrouverte sur la lumière du matin" loading="lazy" decoding="async" style="--pos: 50% 41%;"></picture></div></figure><span class="etape__num" aria-hidden="true">02</span><h3>Visite découverte gratuite</h3><p>Je viens chez vous 30 minutes, gratuitement. On regarde votre matériel et on définit vos objectifs ensemble.</p></li><li class="etape" data-etape="2"><figure class="visuel etape__visuel visuel--photo" data-img="etape-3-materiel"><div class="visuel__dedans"><picture><img src="assets/img/etape-3-materiel-640.webp" srcset="assets/img/etape-3-materiel-640.webp 640w, assets/img/etape-3-materiel-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un ordinateur, une tablette et un smartphone posés côte à côte sur une nappe" loading="lazy" decoding="async" style="--pos: 50% 44%;"></picture></div></figure><span class="etape__num" aria-hidden="true">03</span><h3>Matériel mis à disposition</h3><p>Pas de matériel ? Aucun souci. Un ordinateur, une tablette ou un smartphone peuvent être prêtés pendant chaque séance.</p></li><li class="etape" data-etape="3"><figure class="visuel etape__visuel visuel--photo" data-img="etape-4-carnet"><div class="visuel__dedans"><picture><img src="assets/img/etape-4-carnet-640.webp" srcset="assets/img/etape-4-carnet-640.webp 640w, assets/img/etape-4-carnet-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un carnet ouvert avec des schémas dessinés à la main, un crayon et un smartphone" loading="lazy" decoding="async" style="--pos: 50% 75%;"></picture></div></figure><span class="etape__num" aria-hidden="true">04</span><h3>Apprentissage personnalisé</h3><p>Des séances à votre rythme, chez vous. Vous progressez selon vos besoins et vos envies.</p></li></ol>
     </div>
     <div class="seance">
-      <div><h3>Chaque séance, à domicile</h3><p>Des séances d'une à deux heures, une heure et demie étant la durée conseillée pour bien retenir. Entre deux séances, vous pouvez m'appeler pour une question rapide.</p></div>
+      <div><h3>Chaque séance, à domicile</h3><p>Des séances d’une à deux heures, une heure et demie étant la durée conseillée pour bien retenir. Entre deux séances, vous pouvez m’appeler pour une question rapide.</p></div>
       <ol>
         <li><span>On révise ce qui a été vu la fois précédente.</span></li>
         <li><span>On apprend une ou deux nouvelles choses, pas plus.</span></li>
@@ -174,11 +201,11 @@
     <div class="tete-section">
       <p class="surtitre">Tarifs transparents et solidaires</p>
       <h2 id="titre-tarifs" data-titre-anime>Combien ça coûte <em>vraiment</em> ?</h2>
-      <p class="chapo">Des tarifs clairs, pensés pour être accessibles à tous. Grâce au crédit d'impôt de 50 %, vous ne payez réellement que la moitié, même si vous n'êtes pas imposable.</p>
+      <p class="chapo">Des tarifs clairs, pensés pour être accessibles à tous. Grâce au crédit d’impôt de 50 %, vous ne payez réellement que la moitié, même si vous n’êtes pas imposable.</p>
     </div>
     <div class="tarifs__vitrine">
-      <div class="tarifs__prix"><span class="prix-coupe" data-prix-coupe><span class="prix-coupe__avant"><span class="prix-coupe__moitie prix-coupe__moitie--haut">30&nbsp;€</span><span class="prix-coupe__moitie prix-coupe__moitie--bas" aria-hidden="true">30&nbsp;€</span><span class="prix-coupe__trait" aria-hidden="true"></span></span><span class="prix-coupe__apres">15&nbsp;€</span></span><p>de l'heure, chez vous, déplacement inclus, après crédit d'impôt.</p></div>
-      <figure class="visuel visuel--cadre" data-img="texture-papier-fil" data-icone="carnet" data-source="G" role="img" aria-label="Une feuille de papier ivoire traversée par un fil terracotta, dans la lumière d&#x27;une persienne" style="--ratio: 16 / 10"><div class="visuel__dedans"></div></figure>
+      <div class="tarifs__prix"><span class="prix-coupe" data-prix-coupe><span class="sr">30 € de l’heure, soit 15 € après le crédit d’impôt de 50 %</span><span class="prix-coupe__avant" aria-hidden="true"><span class="prix-coupe__moitie prix-coupe__moitie--haut">30&nbsp;€</span><span class="prix-coupe__moitie prix-coupe__moitie--bas">30&nbsp;€</span><span class="prix-coupe__trait"></span></span><span class="prix-coupe__fleche" aria-hidden="true">→</span><span class="prix-coupe__apres" aria-hidden="true">15&nbsp;€</span></span><p>30 € de l’heure, chez vous, déplacement inclus. Le crédit d’impôt vous rend la moitié : 15 € réels.</p></div>
+      <figure class="visuel visuel--cadre visuel--photo" data-img="texture-papier-fil" style="--ratio: 16 / 10"><div class="visuel__dedans"><picture><img src="assets/img/texture-papier-fil-800.webp" srcset="assets/img/texture-papier-fil-800.webp 800w, assets/img/texture-papier-fil-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 50vw" alt="Une feuille de papier ivoire traversée par un fil terracotta, dans la lumière d&#x27;une persienne" loading="lazy" decoding="async" style="--pos: 50% 55%;"></picture></div></figure>
     </div>
 
     <form class="calc" data-calc aria-label="Simulateur de coût" onsubmit="return false">
@@ -186,12 +213,12 @@
         <fieldset>
           <legend>Votre tarif</legend>
           <div class="choix">
-            <label for="calc-standard"><input type="radio" id="calc-standard" name="calc-tarif" value="30" checked><span><b>Standard, 30 € de l'heure</b><small>Pour tous, à domicile, sans limite de temps.</small></span></label>
-            <label for="calc-solidaire"><input type="radio" id="calc-solidaire" name="calc-tarif" value="15"><span><b>Solidaire, 15 € de l'heure</b><small>Bénéficiaires du RSA, de l'AAH ou de l'ASPA, sur justificatif récent.</small></span></label>
+            <label for="calc-standard"><input type="radio" id="calc-standard" name="calc-tarif" value="30" checked><span><b>Standard, 30 € de l’heure</b><small>Pour tous, à domicile, sans limite de temps.</small></span></label>
+            <label for="calc-solidaire"><input type="radio" id="calc-solidaire" name="calc-tarif" value="15"><span><b>Solidaire, 15 € de l’heure</b><small>Bénéficiaires du RSA, de l’AAH ou de l’ASPA, sur justificatif récent.</small></span></label>
           </div>
         </fieldset>
         <div class="heures">
-          <div class="heures__ligne"><label for="calc-heures"><b>Nombre d'heures dans l'année</b></label><output id="calc-heures-sortie" for="calc-heures">10 h</output></div>
+          <div class="heures__ligne"><label for="calc-heures"><b>Nombre d’heures dans l’année</b></label><output id="calc-heures-sortie" for="calc-heures">10 h</output></div>
           <input type="range" id="calc-heures" min="1" max="40" step="1" value="10" aria-describedby="calc-heures-sortie">
           <div class="raccourcis" role="group" aria-label="Raccourcis">
             <button type="button" data-heures="1" aria-pressed="false">1 heure</button>
@@ -200,31 +227,32 @@
           </div>
         </div>
       </div>
-      <div class="calc__resultat" aria-live="polite">
+      <div class="calc__resultat">
+        <p class="sr" aria-live="polite" data-calc-annonce></p>
         <p class="calc__forfait" data-calc-forfait>Forfait Sérénité</p>
         <dl>
           <div class="ligne"><dt>Vous réglez</dt><dd data-calc-paye>300 €</dd></div>
-          <div class="ligne"><dt>Crédit d'impôt de 50 %</dt><dd data-calc-credit>− 150 €</dd></div>
+          <div class="ligne"><dt>Crédit d’impôt de 50 %</dt><dd data-calc-credit>− 150 €</dd></div>
         </dl>
         <div class="calc__total"><span>Votre coût réel</span><strong data-calc-reel>150 €</strong></div>
-        <p class="calc__alerte" data-calc-alerte hidden>Le crédit d'impôt est calculé sur 3 000 € de dépenses au plus par an et par foyer pour l'assistance informatique à domicile.</p>
-        <p class="calc__note">Simulation indicative. Crédit d'impôt selon l'article 199 sexdecies du Code général des impôts, sous conditions. Il est versé l'année suivante, ou déduit tout de suite avec l'avance immédiate de l'Urssaf <span class="a-completer">à confirmer</span>.</p>
+        <a class="bouton bouton--clair magnetique" href="./#rendez-vous">Réserver la visite gratuite</a>
+        <p class="calc__note">Simulation indicative. Crédit d’impôt selon l’article 199 sexdecies du Code général des impôts, sous conditions, dans la limite de 3 000 € de dépenses par an et par foyer. Il est versé l’année suivante, ou déduit tout de suite avec l’avance immédiate de l’Urssaf <span class="a-completer">à confirmer</span>.</p>
       </div>
     </form>
 
     <ul class="cartes-tarifs">
-      <li class="carte-tarif"><h3>Accompagnement standard</h3><p>Idéal pour débuter sereinement.</p><p class="carte-tarif__prix">30 € <small>de l'heure</small></p><p class="carte-tarif__reel">Soit 15 € après crédit d'impôt</p>
+      <li class="carte-tarif"><h3>Accompagnement standard</h3><p>Idéal pour débuter sereinement.</p><p class="carte-tarif__prix">30 € <small>de l’heure</small></p><p class="carte-tarif__reel">Soit 15 € après crédit d’impôt</p>
         <ul><li>Apprentissage à votre rythme, à domicile</li><li>Support téléphonique entre les séances</li><li>Fiches récapitulatives personnalisées</li><li>Aucune limite de temps</li></ul></li>
-      <li class="carte-tarif"><h3>Tarif solidaire</h3><p>Pour les bénéficiaires du RSA, de l'AAH et de l'ASPA.</p><p class="carte-tarif__prix">15 € <small>de l'heure</small></p><p class="carte-tarif__reel">Soit 7,50 € après crédit d'impôt</p>
-        <ul><li>Même qualité d'accompagnement</li><li>Approche bienveillante et respectueuse</li><li>Confidentialité totale</li></ul></li>
-      <li class="carte-tarif"><h3>Forfait Sérénité</h3><p>Un bon compromis pour tester l'accompagnement en douceur.</p><p class="carte-tarif__prix">300 € <small>les 10 h</small></p><p class="carte-tarif__reel">Soit 150 € après crédit d'impôt</p>
+      <li class="carte-tarif"><h3>Tarif solidaire</h3><p>Pour les bénéficiaires du RSA, de l’AAH et de l’ASPA.</p><p class="carte-tarif__prix">15 € <small>de l’heure</small></p><p class="carte-tarif__reel">Soit 7,50 € après crédit d’impôt</p>
+        <ul><li>Même qualité d’accompagnement</li><li>Approche bienveillante et respectueuse</li><li>Confidentialité totale</li></ul></li>
+      <li class="carte-tarif"><h3>Forfait Sérénité</h3><p>Un bon compromis pour tester l’accompagnement en douceur.</p><p class="carte-tarif__prix">300 € <small>les 10 h</small></p><p class="carte-tarif__reel">Soit 150 € après crédit d’impôt</p>
         <ul><li>Idéal pour maîtriser les bases : e-mail, navigation</li></ul></li>
-      <li class="carte-tarif"><h3>Forfait Prestige</h3><p>Pour un vrai coup de pouce dans votre autonomie numérique.</p><p class="carte-tarif__prix">600 € <small>les 20 h</small></p><p class="carte-tarif__reel">Soit 300 € après crédit d'impôt</p>
-        <ul><li>Recommandé pour l'autonomie complète : démarches, périphériques</li></ul></li>
+      <li class="carte-tarif"><h3>Forfait Prestige</h3><p>Pour un vrai coup de pouce dans votre autonomie numérique.</p><p class="carte-tarif__prix">600 € <small>les 20 h</small></p><p class="carte-tarif__reel">Soit 300 € après crédit d’impôt</p>
+        <ul><li>Recommandé pour l’autonomie complète : démarches, périphériques</li></ul></li>
     </ul>
     <div class="mentions-fiscales">
       <p>Prestations de services à la personne. Déclaration SAP n° 828658518 <span class="a-completer">à confirmer</span>. Attestation fiscale remise chaque année.</p>
-      <p>Les ateliers pour les structures et le programme de réinsertion sont facturés sur devis et n'ouvrent pas droit au crédit d'impôt des particuliers <span class="a-completer">à confirmer</span>.</p>
+      <p>Les ateliers pour les structures et le programme de réinsertion sont facturés sur devis et n’ouvrent pas droit au crédit d’impôt des particuliers <span class="a-completer">à confirmer</span>.</p>
     </div>
   </div>
 </section>
@@ -232,7 +260,7 @@
 <section class="section zone" data-fil-section="droite" aria-labelledby="titre-zone">
   <div class="enveloppe">
     <div class="tete-section">
-      <p class="surtitre">Où j'interviens</p>
+      <p class="surtitre">Où j’interviens</p>
       <h2 id="titre-zone" data-titre-anime>À Marseille et <em>alentours</em>, chez vous</h2>
       <p class="chapo">Pour les secteurs plus éloignés, contactez-moi : nous trouverons une solution, notamment pour les ateliers collectifs.</p>
     </div>
@@ -243,25 +271,25 @@
         <p class="illustratif" style="margin-top:14px">Carte schématique, sans échelle. <span class="a-completer">zone à confirmer</span> Les pages du site actuel ne donnent pas toutes la même liste de secteurs.</p>
       </div>
     </div>
-    <div class="zone__rue"><figure class="visuel" data-img="accueil-rue-marseille" data-icone="rue" data-source="G" role="img" aria-label="Une rue résidentielle de Marseille le matin, façades ocre et volets en bois" style="--ratio: 21 / 8"><div class="visuel__dedans"></div></figure></div>
+    <div class="zone__rue"><figure class="visuel visuel--photo" data-img="accueil-rue-marseille" style="--ratio: 21 / 8"><div class="visuel__dedans"><picture><img src="assets/img/accueil-rue-marseille-800.webp" srcset="assets/img/accueil-rue-marseille-800.webp 800w, assets/img/accueil-rue-marseille-1536.webp 1536w" sizes="(max-width: 1320px) 100vw, 1320px" alt="Une rue résidentielle de Marseille le matin, façades ocre et volets en bois" loading="lazy" decoding="async" style="--pos: 50% 32%;"></picture></div></figure></div>
   </div>
 </section>
 
 <section class="section section--bande avis" data-fil-section="gauche" aria-labelledby="titre-avis">
   <div class="enveloppe">
     <div class="tete-section">
-      <p class="surtitre">Ils m'ont fait confiance</p>
+      <p class="surtitre">Ils m’ont fait confiance</p>
       <h2 id="titre-avis" data-titre-anime>Patience, écoute et <em>bienveillance</em></h2>
     </div>
     <div class="avis__corde">
       <svg class="corde" aria-hidden="true" viewBox="0 0 1000 60" preserveAspectRatio="none"><path d="M0 10Q500 70 1000 10" vector-effect="non-scaling-stroke"/></svg>
-      <ul class="avis__cartes" style="list-style:none">
-        <li class="carte-postale"><span class="etoiles" aria-hidden="true">★★★★★</span><blockquote>« Très satisfaite ! Florent est une personne patiente, à l'écoute et bienveillante. »</blockquote><figcaption><b>Jessica T.</b><span>Marseille 8e · avis Google</span></figcaption></li>
-        <li class="carte-postale"><span class="etoiles" aria-hidden="true">★★★★★</span><blockquote>« Je suis vraiment ravi ! Florent fait preuve d'une grande patience et d'une écoute attentive. »</blockquote><figcaption><b>Guillaume</b><span>Marseille 13e · avis Google</span></figcaption></li>
-        <li class="carte-postale"><span class="etoiles" aria-hidden="true">★★★★★</span><blockquote>« Toujours clair, patient et efficace, un vrai soutien de confiance que je recommande sans hésiter. »</blockquote><figcaption><b>José A.</b><span>Marseille 6e · avis Google</span></figcaption></li>
+      <ul class="avis__cartes" role="list">
+        <li class="carte-postale"><figure class="carte-postale__fig"><span class="etoiles" aria-hidden="true">★★★★★</span><blockquote>« Très satisfaite ! Florent est une personne patiente, à l’écoute et bienveillante. »</blockquote><figcaption><b>Jessica T.</b><span>Marseille 8e · avis Google</span></figcaption></figure></li>
+        <li class="carte-postale"><figure class="carte-postale__fig"><span class="etoiles" aria-hidden="true">★★★★★</span><blockquote>« Je suis vraiment ravi(e) ! Florent fait preuve d’une grande patience et d’une écoute attentive. »</blockquote><figcaption><b>Guillaume</b><span>Marseille 13e · avis Google</span></figcaption></figure></li>
+        <li class="carte-postale"><figure class="carte-postale__fig"><span class="etoiles" aria-hidden="true">★★★★★</span><blockquote>« Toujours clair, patient et efficace, un vrai soutien de confiance que je recommande sans hésiter. »</blockquote><figcaption><b>José A.</b><span>Marseille 6e · avis Google</span></figcaption></figure></li>
       </ul>
     </div>
-    <p class="avis__source">Extraits d'avis Google repris du site actuel. <span class="a-completer">texte exact et lien vers la fiche Google à vérifier</span></p>
+    <p class="avis__source">Extraits d’avis Google repris du site actuel. <span class="a-completer">texte exact et lien vers la fiche Google à vérifier</span></p>
   </div>
 </section>
 
@@ -272,10 +300,10 @@
       <h2 id="titre-garanties" data-titre-anime>Des garanties <em>claires</em></h2>
     </div>
     <ul class="garanties__grille">
-      <li class="garantie"><span class="tampon" data-logo="services-a-la-personne"><span><b>50 %</b>Services à la personne</span></span><h3>Crédit d'impôt</h3><p>Prestations éligibles au crédit d'impôt de 50 % des services à la personne. Déclaration n° 828658518 <span class="a-completer">à confirmer</span></p></li>
-      <li class="garantie"><span class="tampon" data-logo="rc-pro"><span><b>RC Pro</b>assurée</span></span><h3>Responsabilité civile professionnelle</h3><p>Chaque accompagnement est couvert par une assurance professionnelle.</p></li>
-      <li class="garantie"><span class="tampon" data-logo="arkea-care"><span><b>Arkéa</b>Care</span></span><h3>Partenaire Arkéa Care</h3><p>Accompagnement numérique à domicile et téléassistance, pour favoriser le maintien à domicile, la sérénité et le lien social.</p></li>
-      <li class="garantie"><span class="tampon"><span><b>DORA</b>référencé</span></span><h3>Référencé sur DORA</h3><p>Présent sur la plateforme qui recense les services d'inclusion pour les professionnels de l'accompagnement.</p></li>
+      <li class="garantie"><span class="tampon"><span><b>50 %</b>Services à la personne</span></span><h3>Crédit d’impôt</h3><p>Prestations éligibles au crédit d’impôt de 50 % des services à la personne. Déclaration n° 828658518 <span class="a-completer">à confirmer</span></p></li>
+      <li class="garantie"><span class="tampon"><span><b>RC Pro</b>assurée</span></span><h3>Responsabilité civile professionnelle</h3><p>Chaque accompagnement est couvert par une assurance professionnelle.</p></li>
+      <li class="garantie"><span class="tampon tampon--logo"><img src="assets/img/arkea-care-240.webp" srcset="assets/img/arkea-care-240.webp 240w, assets/img/arkea-care-480.webp 480w" sizes="104px" width="240" height="60" alt="Arkéa Care"></span><h3>Partenaire Arkéa Care</h3><p>Accompagnement numérique à domicile et téléassistance, pour favoriser le maintien à domicile, la sérénité et le lien social.</p></li>
+      <li class="garantie"><span class="tampon"><span><b>DORA</b>référencé</span></span><h3>Référencé sur DORA</h3><p>Présent sur la plateforme qui recense les services d’inclusion pour les professionnels de l’accompagnement. <span class="a-completer">lien vers la fiche à ajouter</span></p></li>
     </ul>
   </div>
 </section>
@@ -284,15 +312,15 @@
   <div class="enveloppe structures__grille">
     <div>
       <p class="surtitre">Associations et collectivités</p>
-      <h2 id="titre-structures" data-titre-anime style="margin-block:18px 20px">Vous êtes une association, une collectivité ou une structure d'aide ?</h2>
+      <h2 id="titre-structures" data-titre-anime style="margin-block:18px 20px">Vous êtes une association, une collectivité ou une structure d’aide ?</h2>
       <p class="chapo">Je propose des initiations et des ateliers numériques personnalisés pour vos bénéficiaires, avec une approche bienveillante et des tarifs solidaires adaptés à votre structure.</p>
       <div class="structures__colonnes">
         <div><h3>Pour vos publics</h3><ul class="liste-fil"><li>Ateliers collectifs de découverte</li><li>Initiations personnalisées</li><li><a href="reinsertion.html">Programme de réinsertion</a>, en lien avec le SPIP</li></ul></div>
-        <div><h3>Devenir partenaire solidaire</h3><ul class="liste-fil"><li>Soutien financier ou matériel</li><li>Mise en réseau et synergies locales</li><li>Co-organisation d'ateliers ou d'événements</li><li>Parrainage ou mécénat de compétences</li></ul></div>
+        <div><h3>Devenir partenaire solidaire</h3><ul class="liste-fil"><li>Soutien financier ou matériel</li><li>Mise en réseau et synergies locales</li><li>Co-organisation d’ateliers ou d’événements</li><li>Parrainage ou mécénat de compétences</li></ul></div>
       </div>
       <a class="bouton bouton--trait magnetique" href="#rendez-vous" data-pour="structure">Discuter de vos besoins</a>
     </div>
-    <div class="structures__visuel"><figure class="visuel" data-img="accueil-structures-atelier" data-icone="groupe" data-source="G" role="img" aria-label="Un atelier numérique convivial autour d&#x27;une grande table, participants vus de dos" style="--ratio: 4 / 3"><div class="visuel__dedans"></div></figure></div>
+    <div class="structures__visuel"><figure class="visuel visuel--photo" data-img="accueil-structures-atelier" style="--ratio: 4 / 3"><div class="visuel__dedans"><picture><img src="assets/img/accueil-structures-atelier-800.webp" srcset="assets/img/accueil-structures-atelier-800.webp 800w, assets/img/accueil-structures-atelier-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un atelier numérique convivial autour d&#x27;une grande table, participants vus de dos" loading="lazy" decoding="async" style="--pos: 50% 50%;"></picture></div></figure></div>
   </div>
 </section>
 
@@ -301,9 +329,9 @@
     <div class="questions__visuel">
       <p class="surtitre">Des questions ?</p>
       <h2 id="titre-faq" data-titre-anime style="margin-block:18px 26px">Vos questions <em>fréquentes</em></h2>
-      <figure class="visuel" data-img="accueil-questions-fauteuil" data-icone="fauteuil" data-source="G" role="img" aria-label="Un fauteuil près d&#x27;une fenêtre avec une tablette et des lunettes posées dessus"><div class="visuel__dedans"></div></figure>
+      <figure class="visuel visuel--photo" data-img="accueil-questions-fauteuil"><div class="visuel__dedans"><picture><img src="assets/img/accueil-questions-fauteuil-640.webp" srcset="assets/img/accueil-questions-fauteuil-640.webp 640w, assets/img/accueil-questions-fauteuil-1024.webp 1024w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un fauteuil près d&#x27;une fenêtre avec une tablette et des lunettes posées dessus" loading="lazy" decoding="async" style="--pos: 50% 50%;"></picture></div></figure>
     </div>
-    <div class="faq"><details><summary>Faut-il avoir du matériel informatique ?</summary><div class="faq__reponse"><p>Pas forcément. Je peux intervenir avec votre matériel existant (ordinateur, smartphone, tablette) ou vous conseiller sur l'achat d'un équipement adapté à vos besoins et à votre budget.</p><p>Je peux aussi vous prêter un ordinateur, une tablette ou un smartphone pendant chaque séance si besoin. L'important est de commencer là où vous en êtes.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Je suis vraiment débutant, est-ce possible ?</summary><div class="faq__reponse"><p>Bien sûr. Le parcours est conçu pour les grands débutants. On avance pas à pas, sans pression ni jargon technique. Je m'adapte totalement à vous.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Combien de séances faut-il prévoir ?</summary><div class="faq__reponse"><p>Cela dépend de vos objectifs et de votre rythme. Le Forfait Sérénité (10 h) est idéal pour maîtriser les bases (e-mail, navigation). Pour l'autonomie complète (démarches, périphériques), le Forfait Prestige (20 h) est recommandé.</p><p>Nous définissons ensemble vos objectifs lors de la première visite gratuite.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Le tarif solidaire, comment ça marche ?</summary><div class="faq__reponse"><p>Le tarif solidaire à 15 € de l'heure est proposé aux bénéficiaires de minima sociaux (RSA, AAH, ASPA…). Il suffit de me contacter avec un justificatif récent de votre situation.</p><p>Cette démarche se fait toujours dans un esprit de bienveillance, de respect et de confidentialité totale.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Dans quel secteur intervenez-vous ?</summary><div class="faq__reponse"><p>J'interviens principalement à Marseille et dans ses alentours. Pour les secteurs plus éloignés, contactez-moi : nous trouverons une solution, notamment pour les ateliers collectifs.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Comment puis-je vous contacter ?</summary><div class="faq__reponse"><p>Appelez-moi directement au 04 65 84 79 68 (je privilégie le contact humain) ou écrivez-moi à contact@lelienumeriquesolidaire.fr. Je vous propose toujours un premier rendez-vous gratuit de 30 minutes pour faire connaissance.</p></div><span class="faq__fil" aria-hidden="true"></span></details></div>
+    <div class="faq"><details><summary>Faut-il avoir du matériel informatique ?</summary><div class="faq__reponse"><p>Pas forcément. Je peux intervenir avec votre matériel existant (ordinateur, smartphone, tablette) ou vous conseiller sur l’achat d’un équipement adapté à vos besoins et à votre budget.</p><p>Je peux aussi vous prêter un ordinateur, une tablette ou un smartphone pendant chaque séance si besoin. L’important est de commencer là où vous en êtes.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Je suis vraiment débutant, est-ce possible ?</summary><div class="faq__reponse"><p>Bien sûr. Le parcours est conçu pour les grands débutants. On avance pas à pas, sans pression ni jargon technique. Je m’adapte totalement à vous.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Combien de séances faut-il prévoir ?</summary><div class="faq__reponse"><p>Cela dépend de vos objectifs et de votre rythme. Le Forfait Sérénité (10 h) est idéal pour maîtriser les bases (e-mail, navigation). Pour l’autonomie complète (démarches, périphériques), le Forfait Prestige (20 h) est recommandé.</p><p>Nous définissons ensemble vos objectifs lors de la première visite gratuite.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Le tarif solidaire, comment ça marche ?</summary><div class="faq__reponse"><p>Le tarif solidaire à 15 € de l’heure est proposé aux bénéficiaires de minima sociaux (RSA, AAH, ASPA…). Il suffit de me contacter avec un justificatif récent de votre situation.</p><p>Cette démarche se fait toujours dans un esprit de bienveillance, de respect et de confidentialité totale.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Dans quel secteur intervenez-vous ?</summary><div class="faq__reponse"><p>J’interviens principalement à Marseille et dans ses alentours. Pour les secteurs plus éloignés, contactez-moi : nous trouverons une solution, notamment pour les ateliers collectifs.</p></div><span class="faq__fil" aria-hidden="true"></span></details><details><summary>Comment puis-je vous contacter ?</summary><div class="faq__reponse"><p>Appelez-moi directement au 04 65 84 79 68 (je privilégie le contact humain) ou écrivez-moi à contact@lelienumeriquesolidaire.fr. Je vous propose toujours un premier rendez-vous gratuit de 30 minutes pour faire connaissance.</p></div><span class="faq__fil" aria-hidden="true"></span></details></div>
   </div>
 </section>
 
@@ -320,7 +348,7 @@
           <path class="base" d="M20 20C120 6 180 34 300 20S480 6 580 20"/><path class="avance" d="M20 20C120 6 180 34 300 20S480 6 580 20"/>
           <circle cx="20" cy="20" r="9" class="fait"/><circle cx="300" cy="20" r="9"/><circle cx="580" cy="20" r="9"/>
         </svg>
-        <p class="sr" aria-live="polite" data-form-annonce>Étape 1 sur 3</p>
+        <p class="formulaire__etape" aria-live="polite" data-form-annonce>Étape 1 sur 3</p>
         <fieldset class="etape-form" data-pas="1">
           <legend>Pour qui est cet accompagnement ?</legend>
           <div class="pastilles">
@@ -330,8 +358,8 @@
           </div>
         </fieldset>
         <fieldset class="etape-form" data-pas="2" hidden>
-          <legend>De quoi avez-vous besoin ?</legend>
-          <div class="pastilles">
+          <legend data-libelle-structure="Que souhaitez-vous proposer à vos publics ?">De quoi avez-vous besoin ?</legend>
+          <div class="pastilles" data-pour-seul="moi proche">
             <label><input type="checkbox" name="besoin" value="ordinateur" id="b-ordi"><span>Ordinateur</span></label>
             <label><input type="checkbox" name="besoin" value="smartphone" id="b-smart"><span>Smartphone ou tablette</span></label>
             <label><input type="checkbox" name="besoin" value="demarches" id="b-dem"><span>Démarches en ligne</span></label>
@@ -339,31 +367,40 @@
             <label><input type="checkbox" name="besoin" value="arnaques" id="b-arn"><span>Arnaques et sécurité</span></label>
             <label><input type="checkbox" name="besoin" value="autre" id="b-autre"><span>Autre chose</span></label>
           </div>
-          <p style="font-weight:700;margin-top:6px">Quel moment vous arrange ?</p>
+          <div class="pastilles" data-pour-seul="structure" hidden>
+            <label><input type="checkbox" name="projet" value="atelier" id="p-atelier"><span>Ateliers collectifs</span></label>
+            <label><input type="checkbox" name="projet" value="initiation" id="p-init"><span>Initiations individuelles</span></label>
+            <label><input type="checkbox" name="projet" value="reinsertion" id="p-reins"><span>Réinsertion (SPIP, associations)</span></label>
+            <label><input type="checkbox" name="projet" value="autre" id="p-autre"><span>Autre projet</span></label>
+          </div>
+          <div class="champ champ--court" data-pour-seul="structure" hidden><label for="rdv-participants">Nombre de personnes concernées (environ, facultatif)</label><input id="rdv-participants" name="participants" inputmode="numeric" autocomplete="off"></div>
+          <fieldset class="sous-groupe"><legend>Quel moment vous arrange pour être rappelé ?</legend>
           <div class="pastilles">
             <label><input type="radio" name="moment" value="matin" id="m-matin"><span>Le matin</span></label>
-            <label><input type="radio" name="moment" value="apres-midi" id="m-am"><span>L'après-midi</span></label>
+            <label><input type="radio" name="moment" value="apres-midi" id="m-am"><span>L’après-midi</span></label>
             <label><input type="radio" name="moment" value="indifferent" id="m-ind" checked><span>Peu importe</span></label>
-          </div>
+          </div></fieldset>
         </fieldset>
         <fieldset class="etape-form" data-pas="3" hidden>
           <legend>Comment vous joindre ?</legend>
+          <p class="formulaire__obligatoire">Les champs marqués d’un astérisque (*) sont obligatoires.</p>
+          <div class="champ" data-pour-seul="structure" hidden><label for="rdv-structure">Nom de la structure *</label><input id="rdv-structure" name="structure" autocomplete="organization" aria-describedby="err-structure"><p class="erreur" id="err-structure" hidden></p></div>
           <div class="champs-2">
-            <div class="champ"><label for="rdv-nom">Nom et prénom</label><input id="rdv-nom" name="nom" autocomplete="name" required></div>
-            <div class="champ"><label for="rdv-tel">Téléphone</label><input id="rdv-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" required><small>Je vous rappelle à ce numéro.</small></div>
+            <div class="champ"><label for="rdv-nom" data-libelle-proche="Votre nom et prénom *" data-libelle-structure="Votre nom et prénom *">Nom et prénom *</label><input id="rdv-nom" name="nom" autocomplete="name" required aria-describedby="err-nom"><p class="erreur" id="err-nom" hidden></p></div>
+            <div class="champ"><label for="rdv-tel" data-libelle-proche="Votre téléphone *">Téléphone *</label><input id="rdv-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="aide-tel err-tel"><small id="aide-tel">Florent vous rappelle à ce numéro.</small><p class="erreur" id="err-tel" hidden></p></div>
           </div>
+          <div class="champ" data-pour-seul="proche" hidden><label for="rdv-proche">Prénom de votre proche (facultatif)</label><input id="rdv-proche" name="proche" autocomplete="off"></div>
           <div class="champs-2">
             <div class="champ"><label for="rdv-email">E-mail (facultatif)</label><input id="rdv-email" name="email" type="email" autocomplete="email"></div>
-            <div class="champ"><label for="rdv-secteur">Votre secteur</label><select id="rdv-secteur" name="secteur">
-              <option>Marseille 1er à 6e</option><option>Marseille 7e</option><option>Marseille 8e ou 9e</option><option>Marseille 10e à 12e</option><option>Marseille 13e à 16e</option><option>Aubagne, Allauch, Plan-de-Cuques</option><option>Autre commune</option></select></div>
+            <div class="champ"><label for="rdv-secteur" data-libelle-proche="Secteur de votre proche (facultatif)" data-libelle-structure="Secteur de la structure (facultatif)">Votre secteur (facultatif)</label><select id="rdv-secteur" name="secteur">
+              <option value="">Choisir…</option><option>Marseille 1er à 6e</option><option>Marseille 7e</option><option>Marseille 8e ou 9e</option><option>Marseille 10e à 12e</option><option>Marseille 13e à 16e</option><option>Aubagne, Allauch, Plan-de-Cuques</option><option>Autre commune</option></select></div>
           </div>
           <div class="champ"><label for="rdv-message">Un mot sur votre situation (facultatif)</label><textarea id="rdv-message" name="message"></textarea></div>
-          <p class="erreur" data-form-erreur role="alert" hidden></p>
         </fieldset>
         <div class="confirmation" data-confirmation hidden tabindex="-1">
-          <h3>Merci, c'est noté.</h3>
+          <h3>Merci, c’est noté.</h3>
           <p data-confirmation-texte>Florent vous rappelle pour fixer la visite découverte gratuite.</p>
-          <p class="demo">Démonstration : cette maquette n'envoie aucune donnée. Sur le site en ligne, la demande arrivera directement chez Florent.</p>
+          <p class="demo">Démonstration : cette maquette n’envoie aucune donnée. Sur le site en ligne, la demande arrivera directement chez Florent.</p>
           <button type="button" class="bouton bouton--trait" data-form-recommencer>Faire une autre demande</button>
         </div>
         <div class="formulaire__nav" data-form-nav>
@@ -372,9 +409,10 @@
         </div>
       </form>
       <aside class="coordonnees" aria-label="Coordonnées">
-        <figure class="visuel" data-img="accueil-rendez-vous" data-icone="agenda" data-source="G" role="img" aria-label="Un smartphone posé à côté d&#x27;un agenda papier ouvert"><div class="visuel__dedans"></div></figure>
-        <div class="coord"><span class="coord__label">Par téléphone, de préférence</span><div class="coord__ligne"><span class="coord__valeur coord__valeur--grand">04 65 84 79 68</span><button class="copier" type="button" data-copier="04 65 84 79 68">Copier</button></div></div>
-        <div class="coord"><span class="coord__label">Par e-mail</span><div class="coord__ligne"><span class="coord__valeur">contact@lelienumeriquesolidaire.fr</span><button class="copier" type="button" data-copier="contact@lelienumeriquesolidaire.fr">Copier</button></div></div>
+        <figure class="visuel visuel--photo" data-img="accueil-rendez-vous"><div class="visuel__dedans"><picture><img src="assets/img/accueil-rendez-vous-800.webp" srcset="assets/img/accueil-rendez-vous-800.webp 800w, assets/img/accueil-rendez-vous-1536.webp 1536w" sizes="(max-width: 900px) 100vw, 50vw" alt="Un smartphone posé à côté d&#x27;un agenda papier ouvert" loading="lazy" decoding="async" style="--pos: 50% 60%;"></picture></div></figure>
+        <div class="coord"><span class="coord__label">Par téléphone, de préférence</span><div class="coord__ligne"><a class="coord__valeur coord__valeur--grand" href="tel:+33465847968">04 65 84 79 68</a><button class="copier" type="button" data-copier="04 65 84 79 68">Copier</button></div></div>
+        <div class="coord"><span class="coord__label">Par e-mail</span><div class="coord__ligne"><a class="coord__valeur" href="mailto:contact@lelienumeriquesolidaire.fr">contact@<wbr>lelienumeriquesolidaire.fr</a><button class="copier" type="button" data-copier="contact@lelienumeriquesolidaire.fr">Copier</button></div></div>
+        <div class="coord"><span class="coord__label">Horaires</span><span class="coord__valeur" style="font-weight:400">Du lundi au … <span class="a-completer">à compléter</span></span></div>
         <div class="coord"><span class="coord__label">Bureau</span><span class="coord__valeur" style="font-weight:400">8 rue de la République, bureau 3, 13001 Marseille</span></div>
       </aside>
     </div>
@@ -385,16 +423,16 @@
 <footer class="pied" data-fil-section="gauche">
   <div class="enveloppe">
     <div class="pied__appel">
-      <p>Un premier appel suffit pour commencer. Pas de vente forcée, juste de l'écoute.</p>
-      <a class="pied__tel" href="tel:+33465847968" data-fil-fin>04 65 84 79 68</a>
+      <p>Un premier appel suffit pour commencer. Pas de vente forcée, juste de l’écoute.</p>
+      <a class="pied__tel" href="tel:+33465847968" data-fil-fin>04 65 84 79 68</a>
     </div>
     <div class="pied__grille">
-      <div><a class="logo" href="./" aria-label="Le Lien Numérique Solidaire, accueil"><img class="logo__img" src="assets/img/logo-creme-240.webp" srcset="assets/img/logo-creme-240.webp 240w, assets/img/logo-creme-480.webp 480w" sizes="160px" width="240" height="96" alt=""></a><p>Votre partenaire pour l'inclusion numérique à Marseille.</p></div>
+      <div><a class="logo" href="./" aria-label="Le Lien Numérique Solidaire, accueil"><img class="logo__img" src="assets/img/logo-creme-240.webp" srcset="assets/img/logo-creme-240.webp 240w, assets/img/logo-creme-480.webp 480w" sizes="160px" width="240" height="96" alt=""></a><p>Votre partenaire pour l’inclusion numérique à Marseille.</p></div>
       <div><h2>Pages</h2><ul>
         <li><a href="./">Accueil</a></li><li><a href="services.html">Services et tarifs</a></li>
         <li><a href="reinsertion.html">Accompagnement en réinsertion</a></li><li><a href="./#florent">Qui suis-je ?</a></li><li><a href="./#rendez-vous">Contact</a></li></ul></div>
       <div><h2>Me trouver</h2><ul>
-        <li>8 rue de la République, bureau 3<br>13001 Marseille</li><li>04 65 84 79 68</li><li><span style="overflow-wrap:anywhere">contact@lelienumeriquesolidaire.fr</span></li>
+        <li>8 rue de la République, bureau 3<br>13001 Marseille</li><li><a class="" href="tel:+33465847968">04 65 84 79 68</a></li><li><a class="" href="mailto:contact@lelienumeriquesolidaire.fr">contact@<wbr>lelienumeriquesolidaire.fr</a></li>
         <li><a href="https://www.facebook.com/florentarnaudcoach" rel="noopener">Facebook</a> · <a href="https://www.instagram.com/lelienumeriquesolidaire" rel="noopener">Instagram</a></li></ul></div>
       <div><h2>Informations légales</h2><ul>
         <li>Florent Arnaud, entrepreneur individuel</li><li>SIRET 828 658 518 00034</li>
@@ -404,16 +442,14 @@
     </div>
     <div class="pied__bas"><span>© 2026 Le Lien Numérique Solidaire</span><span>Maquette de démonstration : formulaires et simulations sans envoi réel.</span></div>
   </div>
-</footer><div class="barre-appel" aria-label="Contact rapide">
+</footer><nav class="barre-appel" aria-label="Contact rapide">
   <a class="bouton bouton--trait" href="tel:+33465847968"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.2 3.8h3.1l1.9 4.6-2.3 1.5a11.5 11.5 0 0 0 6.2 6.2l1.5-2.3 4.6 1.9v3.1a2 2 0 0 1-2.1 2A16.6 16.6 0 0 1 3.2 5.9a2 2 0 0 1 2-2.1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>Appeler</a>
-  <a class="bouton bouton--plein" href="./#rendez-vous">Visite gratuite</a>
-</div><script src="assets/vendor/gsap.min.js" defer></script>
+  <a class="bouton bouton--plein" href="#rendez-vous">Visite gratuite</a>
+</nav><script src="assets/vendor/gsap.min.js" defer></script>
 <script src="assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="assets/vendor/SplitText.min.js" defer></script>
 <script src="assets/vendor/MorphSVGPlugin.min.js" defer></script>
-<script src="assets/vendor/Flip.min.js" defer></script>
 <script src="assets/vendor/lenis.js" defer></script>
-<script src="assets/img/images.js" defer></script>
 <script src="assets/js/site.js" defer></script>
 </body>
 </html>
