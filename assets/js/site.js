@@ -113,19 +113,28 @@
       '<span class="visuel__etiquette" aria-hidden="true">' + source + ' · <b>' + nom + '</b></span>';
   }
 
+  function entree(nom) {
+    var e = IMAGES[nom];
+    if (!e) return null;
+    return Array.isArray(e) ? { w: e, pos: '' } : e;
+  }
   function photo(fig) {
-    var nom = fig.getAttribute('data-img'), tailles = IMAGES[nom];
-    if (!tailles) return false;
-    var mob = fig.getAttribute('data-img-mobile'), tMob = mob && IMAGES[mob];
+    var nom = fig.getAttribute('data-img'), e = entree(nom);
+    if (!e) return false;
+    var mob = fig.getAttribute('data-img-mobile'), eMob = mob && entree(mob);
     var alt = fig.getAttribute('aria-label') || '';
     var srcset = function (n, t) { return t.map(function (w) { return 'assets/img/' + n + '-' + w + '.webp ' + w + 'w'; }).join(', '); };
-    var html = '<picture>' + (tMob ? '<source media="(max-width: 700px)" srcset="' + srcset(mob, tMob) + '" sizes="100vw">' : '') +
-      '<img src="assets/img/' + nom + '-' + tailles[0] + '.webp" srcset="' + srcset(nom, tailles) + '" sizes="(max-width: 900px) 100vw, 50vw" alt="' + alt.replace(/"/g, '&quot;') + '" loading="lazy" decoding="async"></picture>';
+    var html = '<picture>' + (eMob ? '<source media="(max-width: 700px)" srcset="' + srcset(mob, eMob.w) + '" sizes="100vw">' : '') +
+      '<img src="assets/img/' + nom + '-' + e.w[0] + '.webp" srcset="' + srcset(nom, e.w) + '" sizes="(max-width: 900px) 100vw, 50vw" alt="' + alt.replace(/"/g, '&quot;') + '" loading="lazy" decoding="async"></picture>';
     var dedans = $('.visuel__dedans', fig) || fig;
     dedans.innerHTML = html;
     fig.removeAttribute('role'); fig.removeAttribute('aria-label');
     var img = $('img', fig);
-    if (fig.closest('.heros, .heros-page')) img.loading = 'eager';
+    if (fig.closest('.heros, .heros-page')) { img.loading = 'eager'; img.setAttribute('fetchpriority', 'high'); }
+    var cadrer = function () { var m = eMob && window.matchMedia('(max-width: 700px)').matches; img.style.objectPosition = (m ? eMob.pos : e.pos) || ''; };
+    cadrer();
+    if (eMob) { var mq = window.matchMedia('(max-width: 700px)'); if (mq.addEventListener) mq.addEventListener('change', cadrer); }
+    fig.classList.add('visuel--photo');
     img.addEventListener('load', function () { if (window.ScrollTrigger) ScrollTrigger.refresh(); }, { once: true });
     return true;
   }
@@ -133,9 +142,9 @@
   function initVisuels() {
     $$('.visuel[data-img]').forEach(function (f) { if (!photo(f)) provisoire(f); });
     $$('[data-logo]').forEach(function (t) {
-      var n = t.getAttribute('data-logo'), tl = IMAGES[n];
+      var n = t.getAttribute('data-logo'), tl = entree(n);
       if (!tl) return;
-      t.innerHTML = '<img src="assets/img/' + n + '-' + tl[0] + '.webp" alt="" style="width:76%;height:auto;position:relative;z-index:1">';
+      t.innerHTML = '<img src="assets/img/' + n + '-' + tl.w[0] + '.webp" alt="" style="width:76%;height:auto;position:relative;z-index:1">';
       t.classList.add('tampon--logo');
     });
   }
@@ -634,10 +643,16 @@
     var pile = $$('.etapes__pile .visuel'), etapes = $$('.etape');
     if (!pile.length) return;
     var pileEl = $('.etapes__pile'); pileEl.classList.add('pret');
-    var activer = function (k) { pile.forEach(function (v, i) { v.classList.toggle('actif', i === k); }); };
+    var courant = -1;
+    var activer = function (k) { if (k === courant) return; courant = k; pile.forEach(function (v, i) { v.classList.toggle('actif', i === k); }); };
+    var choisir = function () {
+      var milieu = window.innerHeight * .58, k = 0;
+      etapes.forEach(function (li, i) { if (li.getBoundingClientRect().top < milieu) k = i; });
+      activer(k);
+    };
     activer(0);
-    etapes.forEach(function (li, k) {
-      ST.create({ trigger: li, start: 'top 62%', end: 'bottom 38%', onToggle: function (s) { if (s.isActive) activer(k); } });
+    ST.create({ trigger: '.etapes', start: 'top bottom', end: 'bottom top', onUpdate: choisir, onRefresh: choisir, onToggle: choisir });
+    if (!calme) etapes.forEach(function (li) {
       G.from(li, { opacity: .25, duration: .6, scrollTrigger: { trigger: li, start: 'top 75%', end: 'top 45%', scrub: true } });
     });
     G.from('.seance li', { x: -24, opacity: 0, stagger: .1, duration: .6, scrollTrigger: { trigger: '.seance', start: 'top 85%', once: true } });
