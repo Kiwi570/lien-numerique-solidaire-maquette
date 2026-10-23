@@ -87,6 +87,7 @@ a:hover { color: var(--terre); }
 .service--reinsertion :focus-visible, .etiquette--fin :focus-visible { outline-color: var(--soleil); box-shadow: none; }
 ::selection { background: var(--soleil); color: var(--encre); }
 h1, h2, h3, h4 { hyphens: auto; -webkit-hyphens: auto; overflow-wrap: break-word; font-family: var(--f-titre); font-weight: 500; line-height: 1.06; margin: 0; text-wrap: balance; font-variation-settings: "SOFT" 100, "WONK" 0; letter-spacing: -.01em; }
+h1, h2 { hyphens: manual; -webkit-hyphens: manual; } /* pas de césure dans les grands titres */
 h1 em, h2 em { font-style: italic; color: var(--terre); font-variation-settings: "SOFT" 100, "WONK" 1; }
 h2 { font-size: var(--t-h2); }
 h3 { font-size: var(--t-h3); line-height: 1.15; }
@@ -167,7 +168,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .bouton-confort[aria-pressed="true"] { background: var(--encre); color: var(--papier); }
 .burger { display: none; min-height: 48px; min-width: 48px; padding: 0 14px; border-radius: 999px; border: 2px solid var(--encre); background: transparent; font-weight: 700; cursor: pointer; align-items: center; gap: 8px; }
 .burger svg { width: 22px; height: 22px; flex: none; }
-.menu-mobile { border-top: 1px solid var(--trait); background: var(--papier); }
+.menu-mobile { border-top: 1px solid var(--trait); background: var(--papier); max-height: calc(100vh - var(--entete-h)); max-height: calc(100dvh - var(--entete-h) - env(safe-area-inset-top, 0px)); overflow-y: auto; overscroll-behavior: contain; }
 .menu-mobile ul { list-style: none; display: grid; padding-block: 8px 20px; }
 .menu-mobile a { display: flex; min-height: 56px; align-items: center; font-family: var(--f-titre); font-size: 1.5rem; text-decoration: none; color: var(--encre); border-bottom: 1px solid var(--trait); }
 @media (max-width: 1280px) { .nav { display: none; } .burger { display: inline-flex; } }
@@ -265,7 +266,7 @@ html.webgl-ok .persienne-css { display: none; }
 html.anim:not(.anim-fin) .heros .surtitre, html.anim:not(.anim-fin) .heros__lien, html.anim:not(.anim-fin) .heros__titre,
 html.anim:not(.anim-fin) .heros__chapo, html.anim:not(.anim-fin) .heros__prix, html.anim:not(.anim-fin) .heros__tampon,
 html.anim:not(.anim-fin) .heros-page [data-titre-anime] { visibility: hidden; }
-html.anim:not(.anim-fin) .heros__visuel .visuel { clip-path: polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%); }
+html.anim:not(.anim-fin) .heros__visuel .visuel, html.anim:not(.anim-fin) .heros-page .visuel { clip-path: polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%); }
 
 /* Prix coupé en deux */
 .prix-coupe { position: relative; display: inline-flex; align-items: baseline; gap: .35em; font-family: var(--f-titre); font-variant-numeric: lining-nums; white-space: nowrap; }
@@ -714,4 +715,12 @@ html.confort .section--fonce p { color: var(--papier); }
 html.confort .galerie.horizontale .etiquette, html.confort .carte-postale, html.confort .tampon, html.confort .florent__portrait .visuel, html.confort .tarifs__vitrine .visuel { rotate: none; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* audit : cibles tactiles d'au moins 44 px */
+@media (pointer: coarse) {
+  .bandeau-solidaire a { position: relative; }
+  .bandeau-solidaire a::before { content: ""; position: absolute; inset: -6px 0; }
+  .pied li a { min-height: 44px; }
+  .galerie__fleche { min-width: 44px; }
 }

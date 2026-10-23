@@ -549,7 +549,7 @@
   /* ---------- Ouverture de l'accueil ---------- */
   function ouverture() {
     var lien = $('[data-lien]');
-    if (!lien) return;
+    if (!lien || dejaAffiche) return; // le filet de 3,5 s a déjà tout montré : on ne remasque pas
     var point = $('[data-lien-point]'), titre = $('.heros__titre'), visuel = $('.heros__visuel .visuel'), tampon = $('.heros__tampon');
     var pc = $('.heros [data-prix-coupe]');
     var L = lien.getTotalLength();
@@ -602,6 +602,8 @@
       G.fromTo(dd, { yPercent: -6 }, { yPercent: 6, ease: 'none', scrollTrigger: { trigger: v, start: 'top bottom', end: 'bottom top', scrub: true } });
     });
     $$('.heros-page .visuel').forEach(function (v) {
+      if (dejaAffiche) return;
+      root.classList.add('anim-fin'); // la CSS masquait l'image en attendant : GSAP prend le relais
       G.from(v, { clipPath: 'polygon(0% 0%, 0% 0%, -30% 100%, -30% 100%)', duration: 1.3, ease: 'power3.inOut', delay: .2 });
     });
   }
@@ -613,6 +615,7 @@
     var pts = $('[data-points]'), n = +pts.getAttribute('data-points');
     for (var i = 0; i < n; i++) pts.appendChild(d.createElement('i'));
     var cible = +c.getAttribute('data-compteur'), o = { v: 0 };
+    c.textContent = '0';
     var tl = G.timeline({ paused: true });
     tl.to(o, { v: cible, duration: 1.8, ease: 'power2.out', onUpdate: function () { c.textContent = Math.round(o.v); } }, 0)
       .from($$('i', pts), { scaleX: 0, opacity: 0, duration: .25, stagger: 1.5 / n, ease: 'power1.out' }, 0);
@@ -830,8 +833,10 @@
   if (window.MorphSVGPlugin) G.registerPlugin(MorphSVGPlugin);
   if (window.Flip) G.registerPlugin(Flip);
 
+  var dejaAffiche = false;
   function demarrer() {
     if (demarrer.fait) return; demarrer.fait = true;
+    dejaAffiche = root.classList.contains('anim-fin');
     initDefilement();
     if (!calme) {
       if (window.SplitText) { ouverture(); initTitres(); }
@@ -845,6 +850,7 @@
     root.classList.add('anim-fin');
     initFil();
     ST.refresh();
+    if (d.fonts && d.fonts.ready) d.fonts.ready.then(function () { ST.refresh(); });
     if (location.hash && d.getElementById(location.hash.slice(1))) {
       setTimeout(function () { var c = d.getElementById(location.hash.slice(1)); if (lenis) lenis.scrollTo(c, { offset: -(hauteurEntete() + 20), immediate: true }); else c.scrollIntoView(); }, 60);
     }
