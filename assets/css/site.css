@@ -62,7 +62,7 @@ html.lenis, html.lenis body { height: auto; }
 [hidden] { display: none !important; }
 html { font-size: 112.5%; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 html.confort { font-size: 131%; }
-@media (max-width: 360px) { :root { --t-h2: 1.75rem; --t-h1: 2.05rem; } .heros-page h1 { font-size: 1.95rem !important; } }
+@media (max-width: 360px) { :root { --t-h2: 1.55rem; --t-h1: 2.05rem; } .heros-page h1 { font-size: 1.7rem !important; } }
 @media (max-width: 440px) { html.confort { --t-h2: 1.62rem; --t-h1: 1.9rem; } html.confort .heros-page h1 { font-size: 1.8rem; } }
 .heros__texte, .heros-page__texte, .florent__texte { grid-template-columns: minmax(0, 1fr); }
 @media (max-width: 380px) { .entete__in { gap: 8px; } .logo__img { height: 38px; } .burger span { display: none; } .burger { padding: 0; width: 48px; justify-content: center; } .entete__actions { gap: 6px; } }
@@ -194,7 +194,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
     padding: 10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
     background: color-mix(in srgb, var(--papier) 94%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--trait); }
   .barre-appel .bouton { min-height: 52px; padding: .5em .8em; font-size: .95rem; }
-  body { padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)); }
+  .barre-appel { transition: transform .3s ease, visibility .3s; }
+  /* Masquée sur le pied de page et les formulaires ; le pied réserve la hauteur réelle de la barre (--barres-h, mesurée en JS) */
+  html.barre-cachee .barre-appel { transform: translateY(110%); visibility: hidden; }
+  .pied { padding-bottom: calc(40px + var(--barres-h, 74px)); }
   html.saisie .barre-appel { display: none; }
 }
 
@@ -307,10 +310,14 @@ html.anim:not(.anim-fin) .heros__visuel .visuel, html.anim:not(.anim-fin) .heros
 .galerie__fleche:hover { background: var(--encre); color: var(--papier); }
 .galerie__fleche:disabled { opacity: .35; cursor: default; background: transparent; color: var(--encre); }
 .galerie.horizontale .galerie__commandes { display: none; }
-.galerie.horizontale .galerie__collant { position: sticky; overflow: hidden; }
-.galerie.horizontale .galerie__piste { overflow: visible; scroll-snap-type: none; gap: 34px; width: max-content; padding: 16px var(--gouttiere-d) 16px 0; margin: 0; }
-.galerie.horizontale .galerie__piste > .etiquette { flex: none; width: clamp(300px, 26vw, 380px); }
-.galerie.horizontale .etiquette .visuel { --ratio: 1 / 1; }
+/* Épinglée : tout tient dans l'écran, sous l'en-tête mesuré ; la photo cède la hauteur qui manque */
+.galerie.horizontale .galerie__collant { position: sticky; top: 0; overflow: hidden; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center; padding-top: var(--entete-mesuree, var(--entete-h)); }
+.galerie.horizontale .galerie__collant > .enveloppe { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.galerie.horizontale .galerie__piste { overflow: visible; scroll-snap-type: none; gap: 34px; width: max-content; padding: 16px var(--gouttiere-d) 16px 0; margin: 0; flex: 0 1 auto; min-height: 0; }
+.galerie.horizontale .galerie__piste > .etiquette { flex: none; width: clamp(300px, 26vw, 380px); display: flex; flex-direction: column; }
+.galerie.horizontale .etiquette .visuel { --ratio: 1 / 1; flex: 0 1 auto; min-height: 0; }
+.galerie.horizontale .etiquette__corps { flex: none; }
+.galerie.horizontale .etiquette--fin { justify-content: center; align-items: flex-start; }
 .etiquette { position: relative; background: var(--papier-clair); border-radius: 4px; box-shadow: var(--ombre); padding: 14px 14px 24px; display: grid; gap: 14px; align-content: start; transform-style: preserve-3d; min-width: 0; }
 .etiquette:nth-child(even) { --incl: 1.2deg; } .etiquette:nth-child(odd) { --incl: -1deg; }
 .galerie.horizontale .etiquette { transform: rotate(var(--incl)); }
@@ -406,6 +413,11 @@ html.anim:not(.anim-fin) .heros__visuel .visuel, html.anim:not(.anim-fin) .heros
 .choix label { display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: start; padding: 14px 16px; border: 2px solid var(--bord-champ); border-radius: 8px; cursor: pointer; transition: border-color .2s, background-color .2s; }
 .choix label:has(input:checked) { border-color: var(--terre); background: rgba(181, 69, 42, .06); }
 .choix input { width: 24px; height: 24px; margin: 2px 0 0; accent-color: var(--terre-bouton); }
+/* Zone tactile de 44 px : le bouton radio garde son cercle de 24 px, dessiné au centre */
+.choix input[type="radio"] { -webkit-appearance: none; appearance: none; width: 44px; height: 44px; margin: -8px; border-radius: 50%; cursor: pointer;
+  background: radial-gradient(circle closest-side, transparent 0 9px, var(--encre-douce) 9.5px 11.5px, transparent 12px); }
+.choix input[type="radio"]:checked { background: radial-gradient(circle closest-side, var(--terre-bouton) 0 5.5px, transparent 6px 9px, var(--terre-bouton) 9.5px 11.5px, transparent 12px); }
+.choix input[type="radio"]:focus-visible { outline-offset: -6px; }
 .choix small { display: block; color: var(--encre-douce); font-size: .9rem; }
 .heures { display: grid; gap: 12px; }
 .heures__ligne { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
@@ -568,6 +580,7 @@ input[type="range"] { width: 100%; height: 44px; accent-color: var(--terre-bouto
 .coord__label { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 800; color: var(--terre-fonce); }
 .coord__ligne { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .coord__valeur { font-size: 1.25rem; font-weight: 700; overflow-wrap: anywhere; color: var(--encre); }
+a.coord__valeur { display: inline-flex; align-items: center; min-height: 44px; }
 a.coord__valeur { text-decoration-thickness: 2px; text-decoration-color: var(--terre); }
 a.coord__valeur:hover { color: var(--terre-fonce); }
 .ciel a.coord__valeur, .section--fonce a.coord__valeur { color: inherit; }

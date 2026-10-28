@@ -25,6 +25,13 @@
   }
   function couleur(nom) { return getComputedStyle(root).getPropertyValue(nom).trim() || '#B5452A'; }
   function hauteurEntete() { var e = $('.entete'); return e ? e.offsetHeight : 70; }
+  /* Hauteur réelle de l'en-tête, pour les sections épinglées */
+  function initEnteteMesuree() {
+    var e = $('.entete'); if (!e) return;
+    var maj = function () { root.style.setProperty('--entete-mesuree', e.offsetHeight + 'px'); };
+    maj();
+    if ('ResizeObserver' in window) new ResizeObserver(maj).observe(e); else window.addEventListener('resize', maj);
+  }
   function graine(txt) { var h = 2166136261; for (var i = 0; i < txt.length; i++) { h ^= txt.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
   function hasard(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 
@@ -241,6 +248,22 @@
   function initSaisie() {
     d.addEventListener('focusin', function (e) { if (e.target.matches && e.target.matches('input:not([type="radio"]):not([type="checkbox"]):not([type="range"]), textarea, select')) root.classList.add('saisie'); });
     d.addEventListener('focusout', function () { setTimeout(function () { var a = d.activeElement; if (!a || !a.matches || !a.matches('input, textarea, select')) root.classList.remove('saisie'); }, 50); });
+  }
+
+  /* ------------------------------------------------------------ Barre d'appel : hauteur mesurée, masquée sur le pied et les formulaires */
+  function initBarre() {
+    var b = $('.barre-appel');
+    if (!b) return;
+    var maj = function () { if (b.offsetHeight) root.style.setProperty('--barres-h', b.offsetHeight + 'px'); };
+    maj();
+    if ('ResizeObserver' in window) new ResizeObserver(maj).observe(b); else window.addEventListener('resize', maj);
+    if (!('IntersectionObserver' in window)) return;
+    var dedans = [];
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { var i = dedans.indexOf(e.target); if (e.isIntersecting && i < 0) dedans.push(e.target); else if (!e.isIntersecting && i >= 0) dedans.splice(i, 1); });
+      root.classList.toggle('barre-cachee', dedans.length > 0);
+    });
+    $$('.pied, [data-formulaire], [data-formulaire-court]').forEach(function (c) { io.observe(c); });
   }
 
   /* ------------------------------------------------------------ Simulateur */
@@ -639,12 +662,10 @@
       if (!calme) {
         G.matchMedia().add('(min-width: 1200px) and (min-height: 760px)', function () {
           g.classList.add('horizontale');
-          var haut = 0, dist = 0;
+          var dist = 0;
           var mesurer = function () {
             G.set(piste, { x: 0 }); g.style.height = '';
-            var hC = collant.offsetHeight, eh = hauteurEntete();
-            haut = Math.max(eh + 12, Math.round((window.innerHeight - hC) / 2 + eh / 2));
-            collant.style.top = haut + 'px';
+            var hC = collant.offsetHeight;
             var gauche = piste.getBoundingClientRect().left - collant.getBoundingClientRect().left;
             dist = Math.max(0, Math.round(piste.scrollWidth + gauche - collant.clientWidth));
             g.style.height = (hC + dist) + 'px';
@@ -652,7 +673,7 @@
           mesurer();
           ST.addEventListener('refreshInit', mesurer);
           var tw = G.to(piste, { x: function () { return -dist; }, ease: 'none', scrollTrigger: {
-            trigger: g, start: function () { return 'top top+=' + haut; }, end: function () { return '+=' + dist; }, scrub: .6, invalidateOnRefresh: true } });
+            trigger: g, start: 'top top', end: function () { return '+=' + dist; }, scrub: .6, invalidateOnRefresh: true } });
           /* Au clavier : amener la carte qui reçoit le focus au centre de la zone visible */
           var surFocus = function (e) {
             var carte = e.target.closest('.etiquette'); if (!carte) return;
@@ -665,7 +686,7 @@
           g.addEventListener('focusin', surFocus);
           return function () {
             ST.removeEventListener('refreshInit', mesurer); g.removeEventListener('focusin', surFocus);
-            g.classList.remove('horizontale'); g.style.height = ''; collant.style.top = ''; G.set(piste, { clearProps: 'x' });
+            g.classList.remove('horizontale'); g.style.height = ''; G.set(piste, { clearProps: 'x' });
           };
         });
       }
@@ -789,7 +810,7 @@
   function initPersienne() {
     var cvs = $$('canvas[data-persienne]');
     if (!cvs.length) return;
-    import('./persienne.js?v=20261028').then(function (m) {
+    import('./persienne.js?v=20261028-2').then(function (m) {
       cvs.forEach(function (c) { if (m.lancer(c, c.getAttribute('data-persienne'), calme)) root.classList.add('webgl-ok'); });
     }).catch(function () { /* la version CSS reste affichée */ });
   }
@@ -825,7 +846,7 @@
   }
 
   /* ================================================================ Démarrage */
-  initConfort(); initMenu(); initVisuels(); initCopier(); initFormulaire(); initFormulaireCourt(); initSaisie(); initCalculateurs(); initFiltre(); initCarte();
+  initConfort(); initMenu(); initVisuels(); initCopier(); initFormulaire(); initFormulaireCourt(); initSaisie(); initBarre(); initEnteteMesuree(); initCalculateurs(); initFiltre(); initCarte();
   initPersienne();
   if (!avecGsap) { root.classList.add('anim-fin'); initGaleriSansGsap(); return; }
   G.registerPlugin(ST);

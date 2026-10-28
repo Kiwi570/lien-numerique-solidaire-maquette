@@ -1,6 +1,6 @@
 /* Lumière de persienne : un papier ivoire traversé par la lumière d'une fenêtre à volets.
    WebGL brut (un seul triangle plein écran), sans bibliothèque. Limité à 30 images par seconde,
-   figé sur les écrans tactiles, en économie de données et en mode calme.
+   remplacé par la version CSS sur les écrans tactiles, en économie de données et en mode calme.
    Si WebGL manque, la version CSS reste en place. */
 
 const VERTEX = `
@@ -56,6 +56,10 @@ function shader(gl, type, source) {
 }
 
 export function lancer(canvas, mode, calme) {
+  /* Figé (tactile, économie de données, mode calme) : pas de WebGL. Un canvas dessiné une seule fois
+     perd son tampon au défilement et s'affiche en noir ; la version CSS reste en place. */
+  const economie = (navigator.connection && navigator.connection.saveData) || matchMedia('(pointer: coarse)').matches;
+  if (calme || economie) return false;
   let gl;
   try { gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power', preserveDrawingBuffer: false }); } catch (e) { return false; }
   if (!gl) return false;
@@ -80,8 +84,6 @@ export function lancer(canvas, mode, calme) {
   gl.uniform1f(U('uForce'), pal.force);
   const uTime = U('uTime'), uRes = U('uRes'), uMouse = U('uMouse'), uCentre = U('uCentreX');
 
-  const economie = (navigator.connection && navigator.connection.saveData) || matchMedia('(pointer: coarse)').matches;
-  const fige = calme || economie;
   const parent = canvas.parentElement;
   const dpr = Math.min(window.devicePixelRatio || 1, 1.5) * 0.6;
   const souris = [0, 0], cible = [0, 0];
@@ -103,7 +105,6 @@ export function lancer(canvas, mode, calme) {
   };
   taille();
   if ('ResizeObserver' in window) new ResizeObserver(taille).observe(parent); else window.addEventListener('resize', taille);
-  if (fige) return true;
 
   window.addEventListener('pointermove', (e) => {
     const r = parent.getBoundingClientRect();
