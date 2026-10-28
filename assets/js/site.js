@@ -789,7 +789,7 @@
   function initPersienne() {
     var cvs = $$('canvas[data-persienne]');
     if (!cvs.length) return;
-    import('./persienne.js').then(function (m) {
+    import('./persienne.js?v=20261028').then(function (m) {
       cvs.forEach(function (c) { if (m.lancer(c, c.getAttribute('data-persienne'), calme)) root.classList.add('webgl-ok'); });
     }).catch(function () { /* la version CSS reste affichée */ });
   }
