@@ -195,9 +195,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
     background: color-mix(in srgb, var(--papier) 94%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--trait); }
   .barre-appel .bouton { min-height: 52px; padding: .5em .8em; font-size: .95rem; }
   .barre-appel { transition: transform .3s ease, visibility .3s; }
-  /* Masquée sur le pied de page et les formulaires ; le pied réserve la hauteur réelle de la barre (--barres-h, mesurée en JS) */
-  html.barre-cachee .barre-appel { transform: translateY(110%); visibility: hidden; }
-  .pied { padding-bottom: calc(40px + var(--barres-h, 74px)); }
+  /* Affichée seulement une fois le héros dépassé, masquée sur les formulaires, le pied de page et la 404 ;
+     le pied réserve la hauteur réelle de la barre (--barres-h, mesurée en JS) */
+  html.js:not(.barre-visible) .barre-appel { transform: translateY(110%); visibility: hidden; }
+  html.page-404 { --barres-h: 0px; } html.page-404 .barre-appel { display: none; }
   html.saisie .barre-appel { display: none; }
 }
 
@@ -592,6 +593,7 @@ a.coord__valeur:hover { color: var(--terre-fonce); }
 
 /* ---------- Pied de page ---------- */
 .pied { background: var(--nuit); color: var(--papier); padding-block: clamp(70px, 8vw, 120px) 40px; position: relative; }
+@media (max-width: 700px) { .pied { padding-bottom: calc(40px + var(--barres-h, 74px)); } } /* hauteur réelle de la barre d'appel */
 .pied a { color: var(--papier); }
 .pied__appel { display: grid; gap: 10px; margin-bottom: clamp(50px, 6vw, 80px); }
 .pied__appel p { color: rgba(246, 236, 219, .8); font-size: 1.15rem; }

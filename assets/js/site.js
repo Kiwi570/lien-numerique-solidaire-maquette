@@ -250,20 +250,20 @@
     d.addEventListener('focusout', function () { setTimeout(function () { var a = d.activeElement; if (!a || !a.matches || !a.matches('input, textarea, select')) root.classList.remove('saisie'); }, 50); });
   }
 
-  /* ------------------------------------------------------------ Barre d'appel : hauteur mesurée, masquée sur le pied et les formulaires */
+  /* ------------------------------------------------------------ Barre d'appel : hauteur mesurée, visible une fois le héros dépassé, masquée sur le pied et les formulaires */
   function initBarre() {
     var b = $('.barre-appel');
     if (!b) return;
     var maj = function () { if (b.offsetHeight) root.style.setProperty('--barres-h', b.offsetHeight + 'px'); };
     maj();
     if ('ResizeObserver' in window) new ResizeObserver(maj).observe(b); else window.addEventListener('resize', maj);
-    if (!('IntersectionObserver' in window)) return;
+    if (!('IntersectionObserver' in window)) { root.classList.add('barre-visible'); return; }
     var dedans = [];
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) { var i = dedans.indexOf(e.target); if (e.isIntersecting && i < 0) dedans.push(e.target); else if (!e.isIntersecting && i >= 0) dedans.splice(i, 1); });
-      root.classList.toggle('barre-cachee', dedans.length > 0);
+      root.classList.toggle('barre-visible', dedans.length === 0);
     });
-    $$('.pied, [data-formulaire], [data-formulaire-court]').forEach(function (c) { io.observe(c); });
+    $$('.heros, .heros-page, .pied, [data-formulaire], [data-formulaire-court]').forEach(function (c) { io.observe(c); });
   }
 
   /* ------------------------------------------------------------ Simulateur */
